@@ -1,0 +1,39 @@
+/**
+* Name: OSMOS Badges
+* Author: Symbiosys
+*/
+
+$colors: (
+    primary: $os-primary,
+    secondary: $os-secondary,
+    success: $os-success,
+    warning: $os-warning,
+    error: $os-error,
+    dark: $os-dark,
+    light: $os-light
+);
+
+.os-badge {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 2rem;
+    padding: .5rem .8rem;
+    font-size: 80%;
+
+    &--big {
+        padding: 1rem;
+        font-size: 1.6rem;
+    }
+}
+
+// color badges 
+@each $c, $color in $colors {
+    .os-badge--#{$c} {
+        background-color: $color;
+        color: $white;
+
+        @if(lightness($color) > 60) {
+           color: $os-dark;
+        }
+    }
+}

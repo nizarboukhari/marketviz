@@ -1,0 +1,214 @@
+/**
+* Documentation
+**/
+
+$header-height: 5.5rem;
+
+.doc__spacer {
+  width: 40rem;
+  max-width: 80%;
+  margin: 2rem auto;
+  border-bottom: .1rem dotted rgba($os-secondary, .2);
+
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.doc__header {
+    background: $white;
+    padding: 1rem 0;
+    height: $header-height;
+
+    a {
+        font-size: 1.6rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    small {
+        font-weight: initial;
+    }
+
+    .sep--vertical {
+        height: 2rem;
+        width: .1rem;
+        border-left: .1rem solid rgba($os-dark, .2);
+        margin: 0 2rem;
+    }
+}
+
+.aurelia-crumbs {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: auto;
+    padding: .5rem 1rem;
+    display: inline-block;
+    border-bottom: 0;
+    background: rgba($os-primary, .1);
+    border-radius: 2rem;
+
+    span + a {
+        font-weight: 600;
+    }
+
+    a {
+        color: $os-primary !important;
+        letter-spacing: .1rem;
+        font-size: 1.1rem;
+    }
+}
+
+nav.lang-nav {
+    background: $os-primary;
+    
+    display: flex;
+
+    a {
+        padding: 1rem .5rem;
+        color: $white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: .9rem;
+        font-weight: 600;
+        transition: background .3s;
+
+        @include breakpoint(sm) {
+          padding: 1.5rem 1rem;
+          font-size: 1.2rem;
+        }
+    }
+    
+    a:hover, a:active, a.active {
+        background: darken($os-primary, 5%);
+    }
+
+    img {
+        margin-right: 1rem;
+        filter: invert(1);
+    }
+}
+
+.doc__aside {
+    padding: 2rem;
+    background: $white;
+    border-radius: $os-radius;
+    box-shadow: 0 .2rem 0 rgba($os-dark, .05);
+    margin-bottom: 2rem;
+
+    a:not(.doc__aside__title) {
+        display: block;
+        padding: .5rem;
+        color: rgba($os-secondary, .8);
+        text-decoration: none;
+        font-size: 1.3rem;
+    }
+}
+.doc__aside__title {
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.6rem;
+    padding: 1rem 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: .1rem dotted rgba($os-dark, .05);
+}
+
+pre {
+    font-size: 1.2rem;
+    background: darken($os-secondary, 30%) !important;
+}
+
+code {
+  background: rgba($os-primary, .1);
+}
+
+.code__example {
+  padding: 2rem;
+  border-radius: $os-radius;
+  background: darken($os-secondary, 20%);
+  // color: $os-app-bg;
+  color: lighten($os-secondary, 50%);
+  margin: 0 1rem;
+  position: relative;
+
+  .os-grid__exemple { color: rgba($os-secondary, .5); }
+}
+
+// main {
+//     color: rgba($os-dark, .8);
+    
+//     h2 {
+//       margin-top: 0;
+//     }
+
+//     @include breakpoint(sm) {
+//       padding-bottom: 3rem;
+//     }
+// }
+
+.doc__nav--intern {
+    position: sticky;
+    padding: 2rem 0;
+    bottom: 0;
+    background: $os-app-bg;
+    z-index: 1001;
+
+    display: flex;
+
+    @include breakpoint(sm) {
+      position: fixed;
+      display: flex;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      padding: 2rem;
+
+      &::before {
+        content: '';
+        width: 37rem;
+      }
+    }
+
+    a {
+      font-size: 1.2rem;
+      letter-spacing: .1rem;
+    }
+}
+
+.os-collapse__trigger > i {
+  margin-top: 1rem;
+}
+
+/**
+* Breakpoint(sm)
+**/
+
+@include breakpoint(sm) {
+
+  .doc__spacer {
+    margin: 3rem auto;
+  }
+
+  nav.lang-nav {
+      flex-direction: row;
+  }
+
+  .doc__aside {
+      position: sticky;
+      top: 2rem;
+      width: 30rem;
+      margin-right: 5rem;
+      margin-bottom: 0;
+  }
+}

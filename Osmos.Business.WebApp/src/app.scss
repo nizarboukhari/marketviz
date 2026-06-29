@@ -1,0 +1,381 @@
+/**
+* Symbiosys APP
+**/
+
+// variables surcharges
+@import 'scss/variables';
+
+// Osmos
+@import 'scss/osmos/osmos';
+
+// app styles
+// ...........................
+@import 'scss/documentation';
+
+// design system
+// @import 'scss/design-system/window-pop';
+// @import 'scss/design-system/overlay';
+// @import 'scss/design-system/selector';
+// @import 'scss/design-system/form';
+// @import 'scss/design-system/button';
+// @import 'scss/design-system/file-name';
+// // @import 'scss/design-system/table';
+// @import 'scss/design-system/pagination';
+// @import 'scss/design-system/page-element';
+// // @import 'resources/elements/ariane';
+// @import 'scss/design-system/btn-group';
+
+// reset
+@import 'scss/global-page-style';
+
+.menu-item {
+  padding: 5px 5px 5px 5px;
+}
+
+.icon-mg-5 {
+  margin-right: 5px;
+}
+
+.bg-error {
+  background-color: #D83F20;
+}
+
+.bg-success {
+  background-color: #9CCC3D;
+}
+
+.margin-container {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+header {
+  display: grid;
+  grid-template: auto / 220px auto 220px;
+  align-items: center;
+  height: var(--header-height);
+  background-color: white;
+  // box-shadow: 0 0 1px rgba(0,0,0,.4);
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  padding-left: 35px;
+  padding-right: 35px;
+  z-index: 4;
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+
+nav {
+  position: relative;
+
+  .ds-window-pop {
+    width: 100%;
+    max-width: 170px;
+    padding: 7px 5px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+  }
+}
+
+nav,
+.content-link-mobile-menu {
+  display: flex;
+  margin: 0 auto;
+  column-gap: 10px;
+  row-gap: 15px;
+}
+
+nav a,
+.content-link-mobile-menu a {
+  text-decoration: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  user-select: none;
+}
+
+.content-link-mobile-menu a {
+  font-size: 1.5em;
+}
+
+nav a:hover span,
+.content-link-mobile-menu a:hover span {
+  color: $grey-80;
+}
+
+nav a span,
+.content-link-mobile-menu a span {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: $grey-60;
+  transition: .3s;
+}
+
+nav a.active-link span,
+.content-link-mobile-menu a.active-link span {
+  color: $dark-90;
+}
+
+.content-link-mobile-menu division-selector .division-selector-text {
+  font-size: 1.5em;
+}
+
+.account-header {
+  margin: 0 0 0 auto;
+  display: grid;
+  grid-template: auto / 1fr auto;
+  align-items: center;
+  column-gap: 3px;
+  row-gap: 5px;
+  cursor: pointer;
+  user-select: none;
+  width: 100%;
+  position: relative;
+  z-index: 4;
+
+  .account-name {
+    color: $dark-90;
+    font-weight: 700;
+  }
+
+  .account-role {
+    color: $grey-60;
+    font-size: .8em;
+  }
+
+  .account-name,
+  .account-role {
+    text-align: right;
+    max-width: 190px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .ds-window-selector {
+    right: 0;
+    top: calc(100% + 10px);
+  }
+
+  .material-icons-outlined {
+    color: $grey-60;
+  }
+
+}
+
+.mobile-menu {
+  background-color: white;
+  z-index: 20;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+
+  .content-link-mobile-menu {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    padding: 60px 15px;
+  }
+
+  .btn-close-menu {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: black;
+
+    &:hover {
+      color: $blue-70;
+    }
+
+    &:active {
+      color: $blue-80;
+    }
+  }
+}
+
+.btn-menu-mobile {
+  display: none;
+}
+
+main {
+
+  &.halomax,
+  &.halomax .ds-page-element .header-page-element:before {
+    background-color: #F5F5F5;
+  }
+
+  &.luxomax,
+  &.luxomax .ds-page-element .header-page-element:before {
+    background-color: #EBF8FF;
+  }
+
+  &.litemax,
+  &.litemax .ds-page-element .header-page-element:before {
+    background-color: #FEF9EC;
+  }
+
+  &.page-login {
+    background-color: $neutral-50;
+    min-height: 100vh;
+  }
+}
+
+/* @media all and (max-width: 1000px) {
+
+  nav
+  {
+    column-gap: 2px;
+  }
+
+  nav > a
+  {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+} */
+
+@media all and (max-width: 970px) {
+
+  .desktop-nav,
+  .division-selector-desktop {
+    display: none;
+  }
+
+  header {
+    grid-template: auto / auto 1fr;
+  }
+
+  .btn-menu-mobile {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    height: 100%;
+    padding-right: 50px;
+  }
+
+}
+
+@media all and (max-width: 750px) {
+
+  header {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+}
+
+
+.tippy-box[data-theme~='tomato'] {
+  background-color: red;
+  color: white;
+}
+
+.tippy-box[data-theme~='tomato'][data-placement^='top']>.tippy-arrow::before {
+  border-top-color: red;
+}
+
+.tippy-box[data-theme~='dark'] {
+  background-color: rgb(82, 82, 82);
+  color: white;
+}
+
+.tippy-box[data-theme~='dark'][data-placement^='top']>.tippy-arrow::before {
+  border-top-color: rgb(82, 82, 82);
+}
+
+.tippy-box[data-theme~='light'] {
+  background-color: white;
+  color: rgb(82, 82, 82);
+}
+
+.tippy-box[data-theme~='tomato'][data-placement^='bottom']>.tippy-arrow::before {
+  border-top-color: white;
+}
+
+.tippy-box[data-theme~='light'][data-placement^='top']>.tippy-arrow::before {
+  border-top-color: rgb(214, 214, 214);
+}
+
+/* .sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: black;
+} */
+
+.active-tab {
+  background-color: black !important;
+  color: white !important;
+}
+
+nav.head {
+  height: 42px;
+}
+
+nav.head a {
+  border: 1px solid black;
+}
+
+nav.head a:hover {
+  // background-color: black !important;
+  border: 2px solid lightskyblue !important;
+  color: rgb(5, 158, 253);
+}
+
+.entity-saving {
+  background-color: rgb(179, 255, 179) !important;
+}
+
+.active-link {
+  color: #54FBDC;
+}
+
+.header-menu {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  margin-left: 6px;
+}
+
+.buy-our-token {
+  padding: 12px;
+    border-radius: 100px;
+    text-align: center;
+    background-color: transparent;
+    color: #ff4081;
+    border: 1px solid white;
+
+  // :hover {
+  //   background-color: #ff4081;
+  //   color: #ffffff;
+  // }
+}
+
+.buy-our-token i{
+  background-color: transparent !important;
+  color: #ff4081 !important;
+}
+
+.main-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  column-gap: 12px;
+}
+
+// .toast {
+//   opacity: 0.1;
+// }

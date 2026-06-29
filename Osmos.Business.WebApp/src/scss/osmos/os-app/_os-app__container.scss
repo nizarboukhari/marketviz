@@ -1,0 +1,26 @@
+/**
+* Name: App Container
+* Author: Symbiosys
+*/
+
+.os-container, .os-container--fluid {
+  &.os-app {
+
+    padding-bottom: 5rem;
+    padding-top: 2rem;
+    
+    @include breakpoint(md) {
+      position: absolute;
+      top: #{$navbar-height + $os-app-container-pd};
+      left: #{$sidebar-width + $os-app-container-pd};
+      right: $os-app-container-pd;
+      width: auto;
+      padding-bottom: 0;
+      padding-top: 0;
+
+      &.has-breadcrumb {
+        top: #{$navbar-height + $breadcrumb-height + $os-app-container-pd};
+      }
+    }
+  }
+}

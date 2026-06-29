@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Managers\DocumentsManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.16.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Osmos.Core.Data\Osmos.Core.Data.csproj" />
+    <ProjectReference Include="..\Osmos.Core.Helpers\Osmos.Core.Helpers.csproj" />
+  </ItemGroup>
+  
+</Project>

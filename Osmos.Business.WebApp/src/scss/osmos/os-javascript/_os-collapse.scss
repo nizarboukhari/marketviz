@@ -1,0 +1,23 @@
+/**
+* Name: Collapse
+* Author: Symbiosys
+*/
+
+os-collapse {
+  display: block;
+
+  > a {
+    text-decoration: none;
+  }
+}
+
+.os-collapse {
+  height: 0;
+  pointer-events: none;
+  transition: all .5s;
+  overflow: hidden;
+
+  &.in {
+    pointer-events: all;
+  }
+}

@@ -1,0 +1,75 @@
+/**
+* Name: Flexbox
+* Author: Symbiosys
+*/
+
+.os-flex {
+  display: flex;
+}
+$breakpoints: sm, md, lg;
+@each $bp in $breakpoints {
+  @include breakpoint($bp) {
+    .os-#{$bp}-flex {
+      display: flex;
+    }
+  }
+}
+
+//  flex
+@for $i from 0 through $os-grid-columns {
+  .flex-#{$i} {
+    flex: $i;
+  }
+}
+
+// flex-basis
+@for $i from 1 through 10 {
+  .os-fb-#{$i * 10} {
+    // flex-basis: $i * 10%;
+    height: calc((#{$i} * 10%) - #{$os-grid-gap / 1.5}rem);
+    margin-bottom: #{$os-grid-gap / 1.5}rem;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    @include breakpoint(md) {
+      height: calc((#{$i} * 10%) - #{$os-grid-gap * 1.5}rem);
+      margin-bottom: #{$os-grid-gap * 1.5}rem;
+    }
+  }
+}
+
+$directions: row, row-reverse, column, column-reverse;
+
+@each $direction in $directions {
+  &.flex-#{$direction} {
+    flex-direction: $direction;
+  }
+}
+
+$aligns: (
+  start: flex-start,
+  end: flex-end,
+  center: center
+);
+
+@each $key, $align in $aligns {
+  &.align-items-#{$key} {
+    align-items: $align;
+  }
+}
+
+$justs: (
+  start: flex-start,
+  end: flex-end,
+  center: center,
+  between: space-between,
+  around: space-around
+);
+
+@each $key, $just in $justs {
+  &.justify-content-#{$key} {
+    justify-content: $just;
+  }
+}

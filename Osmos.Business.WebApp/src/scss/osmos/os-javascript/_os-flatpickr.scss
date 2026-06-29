@@ -1,0 +1,56 @@
+/**
+* Name: Flatpickr
+* Author: Symbiosys
+*/
+
+.flatpickr-calendar {
+
+  .flatpickr-months {
+    .flatpickr-next-month:hover svg, .flatpickr-prev-month:hover svg {
+      fill: $os-primary;
+    }
+  }
+
+  .flatpickr-current-month .cur-month {
+    color: $os-primary;
+  }
+
+  .flatpickr-day {
+
+    &:hover {
+      background: $os-light;
+      border-color: $os-light;
+    }
+    
+    &.today {
+      border-color: $os-primary;
+      &:hover {
+        background: $os-primary;
+      }
+    }
+
+    &.endRange, &.startRange {
+      background: $os-primary;
+      border: .1rem solid $os-primary;
+    }
+
+    &.inRange {
+      background: $os-light;
+      box-shadow: -.5rem 0 0 $os-light, .5rem 0 0 $os-light;
+      border-color: $os-light;
+    }
+
+    &.startRange + .endRange:not(:nth-child(7n+1)) {
+      box-shadow: -1rem 0 0 $os-primary;
+    }
+
+    &.selected {
+      background: $os-primary;
+      border-color: $os-primary;
+
+      &.startRange + .endRange:not(:nth-child(7n+1)) {
+        box-shadow: -1rem 0 0 $os-primary;
+      }
+    }
+  }
+}

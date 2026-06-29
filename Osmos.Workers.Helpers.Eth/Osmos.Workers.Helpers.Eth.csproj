@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nethereum.JsonRpc.WebSocketClient" Version="4.6.1" />
+    <PackageReference Include="Nethereum.Web3" Version="4.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Osmos.Business.Data.NoSql\Osmos.Business.Data.NoSql.csproj" />
+    <ProjectReference Include="..\Osmos.Core.ApiClient\Osmos.Core.ApiClient.csproj" />
+    <ProjectReference Include="..\Osmos.Workers.Common\Osmos.Workers.Common.csproj" />
+  </ItemGroup>
+
+</Project>

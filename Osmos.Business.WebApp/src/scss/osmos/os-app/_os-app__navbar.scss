@@ -1,0 +1,17 @@
+/**
+* Name: App Navbar
+* Author: Symbiosys
+*/
+
+.os-app {
+  &__navbar {
+    @include breakpoint(md) {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: $white;
+      z-index: 200;
+    }
+  }
+}

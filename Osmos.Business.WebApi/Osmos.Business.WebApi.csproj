@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityModel" Version="4.6.0" />
+    <PackageReference Include="IdentityServer4" Version="4.1.2" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
+    <PackageReference Include="LinqKit.Core" Version="1.2.3" />
+    <PackageReference Include="Nethereum.Signer.EIP712" Version="4.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Osmos.Business.Common\Osmos.Business.Common.csproj" />
+    <ProjectReference Include="..\Osmos.Business.Data.NoSql\Osmos.Business.Data.NoSql.csproj" />
+    <ProjectReference Include="..\Osmos.Core.ApiClient\Osmos.Core.ApiClient.csproj" />
+    <ProjectReference Include="..\Osmos.Core.Data.NoSql\Osmos.Core.Data.NoSql.csproj" />
+    <ProjectReference Include="..\Osmos.Workers.Helpers.Eth\Osmos.Workers.Helpers.Eth.csproj" />
+  </ItemGroup>
+
+</Project>

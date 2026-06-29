@@ -1,0 +1,120 @@
+$opp-screen-break: 1024px;
+
+.grid-container {
+  margin: 6px;
+}
+
+.grid-container div:first-child {
+  font-size: x-large;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #3085DD;
+
+  @media screen and (max-width: $opp-screen-break) {
+    display: none;
+  }
+}
+
+.small-screen-header {
+  font-size: large;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #3085DD;
+
+  @media screen and (min-width: $opp-screen-break) {
+    display: none;
+  }
+}
+
+.gird-opp-row {
+  display: grid;
+  grid-template-columns: 36px 2fr 1fr 1fr 1fr 1fr;
+  // background-color: #2196F3;
+  // margin: 6px;
+
+  @media screen and (max-width: $opp-screen-break) {
+    grid-template-columns: 1fr;
+    margin-bottom: 12px;
+
+    >span {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+
+      :last-child {
+        font-size: large;
+      }
+    }
+  }
+
+  >span {
+    background-color: #272630;
+    border: 1px solid rgb(13, 12, 34);
+    padding: 3px;
+    // font-size: 30px;
+    // text-align: center;
+  }
+}
+
+.gird-score-row {
+  display: grid;
+  grid-template-columns: 36px 2fr 1fr 1fr 1fr;
+  // background-color: #2196F3;
+  // margin: 6px;
+
+  @media screen and (max-width: $opp-screen-break) {
+    grid-template-columns: 1fr;
+    margin-bottom: 12px;
+
+    >span {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+
+      :last-child {
+        font-size: large;
+      }
+    }
+  }
+
+  >span {
+    background-color: #272630;
+    border: 1px solid rgb(13, 12, 34);
+    padding: 3px;
+    // font-size: 30px;
+    // text-align: center;
+  }
+}
+
+.grid-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  column-gap: 3px;
+
+  span:first-child {
+    font-size: smaller;
+  }
+
+  span:last-child {
+    font-size: larger;
+    font-weight: bolder;
+  }
+}
+
+// .truncate {
+//   max-width: 120px;
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
+
+.small-nav-item {
+  font-size: x-large;
+  text-decoration: underline;
+  color: #3085DD;
+  margin-right: 6px;
+}

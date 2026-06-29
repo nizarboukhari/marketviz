@@ -1,0 +1,166 @@
+.container-shrink {
+  width: 47%;
+}
+
+.container-extended {
+  width: auto;
+}
+
+.side-visible {
+  display: "block";
+}
+
+.side-hidden {
+  display: "none";
+}
+
+.token-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 800;
+  color: #C9BFE7;
+
+  &.list-name {
+    width: 180px;
+  }
+
+  &.marquee-name {
+    max-width: 96px;
+    font-size: 18px;
+  }
+}
+
+.active-token {
+  color: #FDAD33;
+}
+
+.marquee-token-container {
+  display: flex;
+  align-items: center;
+  column-gap: 3px;
+  margin-left: 3px;
+  margin-right: 3px;
+  background-color: #21212190;
+  border-radius: 8px;
+  border: 1px solid black;
+  border-radius: 12px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+
+  &.active{
+    border: 1px solid #FDAD33;
+  }
+}
+
+.marquee-rank {
+  font-size: 15px;
+  font-style: italic;
+}
+
+.marquee-score {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.marquee-score-diff {
+  font-size: small;
+  margin-left: -4px;
+  margin-right: -1px;
+}
+
+.marquee-info {
+  width: 14px;
+  height: 14px;
+  font-size: 9px;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.good{
+    background-color: rgb(37, 134, 37);
+  }
+
+  &.bad{
+    background-color: rgb(207, 41, 41);
+  }
+}
+
+.button-watching {
+  background-color: #FDAD33 !important;
+}
+
+.button-default {
+  background-color: #6749BE !important;
+}
+
+.long-card {
+  height: 720px !important;
+}
+
+.data-infos {
+  font-size: x-small;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.block-infos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  border: 1px solid gray;
+  height: 48px;
+}
+
+.block-infos-item {
+  width: 144px;
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: rotate360 2s linear infinite;
+}
+
+.unwatch-link {
+  display: block;
+}
+
+@media screen and (max-width: 800px) {
+  .unwatch-link {
+    display: none;
+  }
+}
+
+.promoted{
+  background-color: #2e2744;
+}
+
+.card-low{
+  border: 1px solid transparent; 
+}
+
+.card-medium{
+  border: 1px solid #FDAD33; 
+}
+
+.card-high{
+  border: 1px solid rgb(207, 41, 41);
+}

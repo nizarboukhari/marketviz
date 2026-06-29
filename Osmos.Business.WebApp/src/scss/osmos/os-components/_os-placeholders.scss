@@ -1,0 +1,43 @@
+@keyframes placeholder-animation {
+      0% { transform: translateX(-100%) }
+      50% { transform: translateX(0) }
+      100% { transform: translateX(-100%) }
+}
+
+.os-placeholder {
+    height: 1.5rem;
+    background: rgba($os-dark, .055);
+    border-radius: #{$os-radius * 3};
+
+    display: block;
+    width: 100%;
+
+    overflow: hidden;
+    position: relative;
+
+    &::before{
+      content:'';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left:0;
+      top:0;
+      background: rgba($os-dark, .025);
+      animation: placeholder-animation 1.5s infinite;
+      // animation-delay: 1s;
+    }
+
+    @for $i from 1 through 100 {
+      &.ph-#{$i} {
+        height: #{$i + 'px'};
+      }
+    }
+
+    &.r-50 {
+      border-radius: 50%;
+    }
+
+    &.r-small {
+      border-radius: $os-radius;
+    }
+}

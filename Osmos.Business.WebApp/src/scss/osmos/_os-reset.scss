@@ -1,0 +1,53 @@
+/**
+* Name: os reset
+* Author: Symbiosys
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  font-size: calc(1em * 0.625); /* IE fix */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: $os-font-size;
+  width: 100%;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  background: $os-app-bg;
+
+  // &::-webkit-scrollbar {
+  //   width: 0.5rem;
+  //   background: $os-light;
+  // }
+  // &::-webkit-scrollbar-thumb {
+  //   background: $os-dark;
+  //   border-radius: $os-radius;
+  // }
+}
+
+hr {
+  margin: 1rem 0;
+  height: 0.1rem;
+  background: rgba(black, .1);
+  border: none;
+}
+
+.clearfix {
+  clear: both;
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+[click\.delegate], [click\.trigger], a {
+  cursor: pointer;
+}

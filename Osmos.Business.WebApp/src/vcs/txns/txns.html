@@ -1,0 +1,39 @@
+<template>
+  <div class="text-center">
+    <h1>Txns</h1>
+  </div>
+
+  <table class="os-table" if.bind="blocks.length">
+    <thead>
+      <tr>
+        <th>block</th>
+        <th>success</th>
+        <th>fail</th>
+        <th>confirmed</th>
+        <th>pending</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr repeat.for="block of blocks">
+        <td>${block.id}</td>
+        <td>${block.success}</td>
+        <td>${block.fail}</td>
+        <td>${block.success + block.fail}</td>
+        <td>${block.pending}</td>
+        <!-- <td>
+          <strong>${block.pending}</strong>
+          <div>
+            <table style="font-size: xx-small;">
+              <tr repeat.for="txn of block.pendingTxns">
+                <td>${txn.hash}</td>
+                <td>${txn.functionName}</td>
+                <td>${txn.gas}</td>
+              </tr>
+            </table>
+          </div>
+        </td> -->
+      </tr>
+    </tbody>
+  </table>
+
+</template>

@@ -1,0 +1,132 @@
+$close-w: 3rem;
+
+.os-toast {
+  color: $white;
+  opacity: 0;
+  pointer-events: none;
+  transition: all $os-transition;
+  transition-delay: 0.1s;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 9000;
+  opacity: 1;
+  pointer-events: all;
+
+  &.bottom {
+    bottom: 0;
+    animation: toastify-bottom-in $os-transition ease-in;
+
+    .os-toast__container {
+      @include safeareaBottom(padding-bottom, 2rem);
+    }
+
+    .os-toast__close {
+      right: #{$close-w / 2};
+      top: -#{$close-w / 2};
+    }
+
+    &.os-toast--hidden {
+      animation: toastify-bottom-out $os-transition ease-in forwards;
+    }
+  }
+
+  &.top {
+    top: 0;
+    animation: toastify-top-in $os-transition ease-in;
+
+    .os-toast__container {
+      @include safeareaTop(padding-top, 2rem);
+    }
+
+    .os-toast__close {
+      right: #{$close-w / 2};
+      bottom: -#{$close-w / 2};
+    }
+
+    &.os-toast--hidden {
+      animation: toastify-top-out $os-transition ease-in forwards;
+    }
+  }
+
+  .os-toast__close {
+    width: $close-w;
+    height: $close-w;
+    color: $white;
+    border: 0.2rem solid $os-app-bg;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .os-toast__container {
+    color: $white;
+    text-decoration: none;
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 2rem;
+
+    span {
+      white-space: nowrap;
+    }
+  }
+}
+
+.os-toast--error {
+  background: $os-error;
+
+  .os-toast__close{
+    background: $os-error;
+  }
+}
+
+.os-toast--success {
+  background: $os-success;
+
+  .os-toast__close {
+    background: $os-success;
+  }
+}
+
+.os-toast--info {
+  background: $os-secondary;
+
+  .os-toast__close {
+    background: $os-secondary;
+  }
+}
+
+@keyframes toastify-top-in {
+  from {
+    top: -1rem;
+    opacity: 0;
+  }
+}
+
+@keyframes toastify-top-out {
+  to {
+    top: -1rem;
+    opacity: 0;
+  }
+}
+
+@keyframes toastify-bottom-in {
+  from {
+    bottom: -1rem;
+    opacity: 0;
+  }
+}
+
+@keyframes toastify-bottom-out {
+  to {
+    bottom: -1rem;
+    opacity: 0;
+  }
+}

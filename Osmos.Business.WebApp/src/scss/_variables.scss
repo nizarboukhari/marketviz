@@ -1,0 +1,42 @@
+/**
+* Surcharges variables
+**/
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+$os-font-family: monospace;;
+
+ $bc-separator: '/';
+ $os-font-size: 1.5rem;
+
+ $os-app-bg: #f4f4f4;
+
+ $os-transition: .3s;
+
+ $height-mobile-nav: 5rem;
+
+  $dark-90: #141414;
+  $blue-80: #302097;
+  $blue-70: #3B27B9;
+  $blue-60: #5541D7;
+  $neutral-90: #48485B;
+  $neutral-80: #A8A8A8;
+  $neutral-70: #C6C6C6;
+  $neutral-60: #E0E0E0;
+  $neutral-50: #F4F4F4;
+  $grey-90: #48485B;
+  $grey-80: #63637E;
+  $grey-60: #9A9AB0;
+  $grey-70: #81819C;
+  $red-80: #CC1436;
+  $red-70: #E92045;
+  $red-60: #EE4765;
+  $green-80: #2E7718;
+  $green-70: #42A923;
+  $green-60: #5AD534;
+
+:root
+{
+  --header-height: 60px;
+}
+
+

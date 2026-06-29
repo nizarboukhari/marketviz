@@ -1,0 +1,125 @@
+<template>
+  <require from="./best-of.scss"></require>
+  <require from="resources/formats/moment-format"></require>
+  <require from="resources/formats/short-address-format"></require>
+
+  <div show.bind="loading" style="width: 100%" class="text-center mt-4">
+    Loading..
+  </div>
+
+  <div>
+    <div class="text-right" show.bind="score.length || opportunity.length">
+      <a href class="small-nav-item" show.bind="show == 'score'" click.delegate="show = 'opportunity'">show opportunity ranking</a>
+      <a href class="small-nav-item" show.bind="show == 'opportunity'" click.delegate="show = 'score'">show score ranking</a>
+    </div>
+    <div show.bind="!loading && score.length && show == 'score'">
+      <h2 class="text-center">score</h2>
+      <div class="grid-container">
+        <div class="gird-score-row">
+          <span></span>
+          <span>token</span>
+          <span class="text-center">score</span>
+          <span class="text-center">date</span>
+          <span class="text-center">chart</span>
+        </div>
+        <div class="gird-score-row" repeat.for="item of score">
+          <span>
+            <span class="small-screen-header">rank</span>
+            <span>${$index + 1}</span>
+          </span>
+          <span>
+            <span class="small-screen-header">token</span>
+            <span>
+              <a href="https://etherscan.io/token/${item.token.address}" target="_blank" class="icons"><img
+                  src="../../images/etherscan.svg" alt="Etherscan" class="svgIcon"><span
+                  class="truncate">${item.token.displayName}</span></a>
+            </span>
+          </span>
+          <span class="text-center">
+            <span class="small-screen-header">score</span>
+            <span>
+              ${item.score}
+            </span>
+          </span>
+          <span class="text-center">
+            <span class="small-screen-header">date</span>
+            <span class="grid-date">
+              <span>${item.updatedDate | momentFormat:{format:'YYYY/MM/DD'}}</span><span>
+                ${item.updatedDate |
+                momentFormat:{format:'HH:mm'}}</span>
+            </span>
+          </span>
+          <span class="text-center">
+            <span class="small-screen-header">chart</span>
+            <span>
+              <a href="https://dexscreener.com/ethereum/${item.token.pairAddress ? item.token.pairAddress : item.token.address}"
+                target="_blank" class="icons"><img src="../../images/dex.svg" alt="DexScreener"
+                  class="svgIcon"><span>${item.token.pairAddress ? item.token.pairAddress : item.token.address |
+                  shortAddressFormat}</span></a>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div show.bind="!loading && opportunity.length  && show == 'opportunity'">
+      <h2 class="text-center">opportunity</h2>
+      <div class="grid-container">
+        <div class="gird-opp-row grid-opportunity">
+          <span></span>
+          <span>token</span>
+          <span class="text-center">ratio</span>
+          <span class="text-center">buy date</span>
+          <span class="text-center">sell date</span>
+          <span class="text-center">chart</span>
+        </div>
+        <div class="gird-opp-row grid-opportunity" repeat.for="item of opportunity">
+          <span>
+            <span class="small-screen-header">rank</span>
+            <span>${$index + 1}</span>
+          </span>
+          <span>
+            <span class="small-screen-header">token</span>
+            <span>
+              <a href="https://etherscan.io/token/${item.token.address}" target="_blank" class="icons"><img
+                  src="../../images/etherscan.svg" alt="Etherscan" class="svgIcon"><span
+                  class="truncate">${item.token.displayName}</span></a>
+            </span>
+          </span>
+          <span class="text-center">
+            <span class="small-screen-header">ratio</span>
+            <span>
+              ${(item.percentage).toFixed(2)}X
+            </span>
+          </span>
+          <span class="text-center">
+            <span class="small-screen-header">buy date</span>
+            <span class="grid-date">
+              <span>${item.minPrice.date | momentFormat:{format:'YYYY/MM/DD'}}</span><span class="status1">
+                ${item.minPrice.date |
+                momentFormat:{format:'HH:mm'}}</span>
+            </span>
+          </span>
+          <span class="text-center">
+            <span class="small-screen-header">sell date</span>
+            <span class="grid-date">
+              <span>${item.maxPrice.date | momentFormat:{format:'YYYY/MM/DD'}}</span><span class="status3">
+                ${item.maxPrice.date |
+                momentFormat:{format:'HH:mm'}}</span>
+            </span>
+          </span>
+          <span class="text-center">
+            <span class="small-screen-header">chart</span>
+            <span>
+              <a href="https://dexscreener.com/ethereum/${item.token.pairAddress ? item.token.pairAddress : item.token.address}"
+                target="_blank" class="icons"><img src="../../images/dex.svg" alt="DexScreener"
+                  class="svgIcon"><span>${item.token.pairAddress ? item.token.pairAddress : item.token.address |
+                  shortAddressFormat}</span></a>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</template>

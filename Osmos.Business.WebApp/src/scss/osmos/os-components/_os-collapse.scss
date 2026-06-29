@@ -1,0 +1,26 @@
+os-collapse {
+  > a {
+    display: block;
+
+    &.in {
+      > i {
+        transform: rotate(180deg);
+      }
+    }
+
+    > span {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    > i {
+      margin: 0px 0px 0px 10px;
+      text-decoration: none;
+      position: absolute;
+      top: 0.3rem;
+      right: 2.5rem;
+      transition: transform $os-transition ease-in-out;
+    }
+  }
+}

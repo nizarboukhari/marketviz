@@ -1,0 +1,23 @@
+<template>
+  <ux-dialog>
+    <ux-dialog-body>
+      <div class="text-right">
+        <i class="fas fa-times" style="cursor: pointer;" click.delegate="controller.cancel()"></i>
+        <hr />
+      </div>
+      <div>
+        <h3>${name}</h3>
+        <pre style="font-size: small; color: lightgreen;">${sourceCode}</pre>
+      </div>
+    </ux-dialog-body>
+
+    <ux-dialog-footer>
+      <button class="btn btn--os-light" click.delegate="controller.cancel()">
+        <i class="fas fa-times"></i> cancel
+      </button>
+      <button class="btn btn--os-primary" click.delegate="ok()" disabled.bind="loading">
+        <i class="fas fa-check"></i> ok
+      </button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

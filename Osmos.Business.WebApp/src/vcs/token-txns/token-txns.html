@@ -1,0 +1,38 @@
+<template>
+  <div class="text-center">
+    <h1>Tokens</h1>
+  </div>
+
+  <form>
+    <div class="form-group">
+      <input type="text" class="os-form-element" placeholder="token address .." autocomplete="off"
+        value.bind="tokenAddress" />
+    </div>
+  </form>
+
+  <table class="os-table" if.bind="txns.length">
+    <thead>
+      <tr>
+        <th>hash</th>
+        <th>name</th>
+        <th>block</th>
+        <th>status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr repeat.for="txn of txns">
+        <td>${txn.hash}</td>
+        <td>${txn.functionName} [0x${txn.functionSignature}]</td>
+        <td>${txn.blockNumber}</td>
+        <td>
+          <span if.bind="!txn.receipt" style="color: orange;">pending</span>
+          <span if.bind="txn.receipt">
+            <span if.bind="txn.receipt.succeeded" style="color: green;">success</span>
+            <span if.bind="!txn.receipt.succeeded" style="color: red;">failed</span>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</template>

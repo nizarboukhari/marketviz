@@ -1,0 +1,59 @@
+<template>
+
+  <require from="./disclaimer.scss"></require>
+
+  <ux-dialog>
+    <ux-dialog-body>
+      <div class="text-right">
+        <!-- <i class="fas fa-times" style="cursor: pointer;" click.delegate="controller.cancel()"></i> -->
+        <hr />
+      </div>
+      <div>
+        <h2>Disclaimer: Not Financial Advice (NFA) & Do Your Own Research (DYOR)</h2>
+        <p>Please read this disclaimer carefully before using the <strong>Marketviz</strong> platform or investing in
+          any cryptocurrency promoted or discussed on the platform. By using the <strong>Marketviz</strong> platform,
+          you agree to the terms and conditions of this disclaimer.</p>
+        <h3>Not Financial Advice (NFA)</h3>
+        <p><strong>Marketviz</strong> provides information, data visualization tools, and promotional content related to
+          cryptocurrencies. The content on the <strong>Marketviz</strong> platform is for informational purposes only
+          and does not constitute financial, investment, or other professional advice. <strong>Marketviz</strong> is not
+          a financial advisor and is not responsible for any financial decisions you make based on the information or
+          tools provided on the platform.</p>
+        <h3>Do Your Own Research (DYOR)</h3>
+        <p>The cryptocurrency market is volatile, and investments in digital assets carry inherent risks. Before making
+          any investment decisions, you should conduct your own research and consult with a qualified financial advisor
+          or other professional to assess your personal financial situation, risk tolerance, and investment objectives.
+        </p>
+        <h3>No Guarantees or Warranties</h3>
+        <p><strong>Marketviz</strong> does not guarantee or warrant the accuracy, completeness, or timeliness of the
+          information or tools provided on the platform. <strong>Marketviz</strong> shall not be held liable for any
+          errors, omissions, or inaccuracies in the content or tools, or for any actions taken based on such content or
+          tools. Investing in cryptocurrencies involves risks, and there is no assurance that any particular investment
+          strategy or cryptocurrency will achieve its objectives, generate profits, or avoid losses.</p>
+        <h3>No Endorsement</h3>
+        <p><strong>Marketviz</strong> does not endorse, recommend, or promote any specific cryptocurrency, digital
+          asset, investment strategy, or financial product. Any opinions, analyses, or other content provided on the
+          platform are for informational purposes only and should not be construed as an endorsement or recommendation.
+        </p>
+        <h3>Third-Party Links</h3>
+        <p>The <strong>Marketviz</strong> platform may contain links to third-party websites or resources.
+          <strong>Marketviz</strong> is not responsible for the content, products, or services provided by these third
+          parties and does not endorse or assume any liability for their actions or omissions. Before accessing or using
+          any third-party website or resource, you should review their terms of use, privacy policies, and any other
+          relevant information.</p>
+        <p>By using the <strong>Marketviz</strong> platform, you acknowledge that you have read, understood, and agree
+          to this disclaimer. You also understand and accept the risks involved in investing in cryptocurrencies and
+          agree to conduct your own research and seek professional advice before making any investment decisions.</p>
+      </div>
+    </ux-dialog-body>
+
+    <ux-dialog-footer>
+      <div class="text-center mb-2">
+        <br />
+        <button class="btn" click.delegate="ok()" disabled.bind="loading">
+          <i class="fas fa-check"></i> I UNDERSTAND
+        </button>
+      </div>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

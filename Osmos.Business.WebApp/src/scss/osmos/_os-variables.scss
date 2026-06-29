@@ -1,0 +1,65 @@
+/**
+* Name: Variables
+* Author: Symbiosys
+*/
+
+/* colors
+**********
+*/
+$white: #ffffff;
+$black: #000000;
+
+$os-dark: #272727 !default;
+$os-light: #F2F2F2 !default;
+
+$os-primary: #3085DD !default;
+$os-secondary: #777DA7 !default;
+
+$os-success: #9CCC3D !default;
+$os-warning: #FFC34C !default;
+$os-error: #D83F20 !default;
+
+
+/* text vars
+*************
+*/
+$os-font-family: monospace;;
+$os-font-size: 1.4rem !default;
+
+/* breakpoints vars
+*************
+*/
+$os-small: '768px' !default;
+$os-medium: '992px' !default;
+$os-large: '1200px' !default;
+
+/* container vars
+*************
+*/
+$os-container: 1100px !default;
+
+/* grid vars
+*************
+*/
+$os-grid-columns: 12 !default;
+$os-grid-gap: 1 !default; // value in rem (10px) !default;
+
+/* app vars
+*************
+*/
+$navbar-height: 7rem !default;
+$sidebar-width: 8rem !default;
+$breadcrumb-height: 3rem !default;
+$os-app-container-pd: 2rem !default;
+$os-app-bg: rgba($os-light, .5) !default;
+
+/* block vars
+*************
+*/
+$os-radius: .3rem !default;
+
+
+/* breadcrumb vars
+*************
+*/
+$bc-separator: '>' !default;

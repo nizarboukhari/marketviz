@@ -1,0 +1,54 @@
+/**
+* Name: Tables
+* Author: Symbiosys
+*/
+
+table.os-table {
+  width: 100%;
+  border-collapse: unset;
+  border-spacing: 0;
+
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-right: .1rem solid $os-light;
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  thead {
+    background: $os-dark;
+    th {
+      color: $os-light;
+    }
+  }
+
+
+  tbody {
+    td, th {
+      border-bottom: .1rem solid $os-light;
+    }
+    tr {
+      &:last-child {
+        td, th {
+          border-bottom: 0;
+        }
+      }
+    }
+  }
+
+  &--striped {
+    tbody {
+      tr:nth-child(odd) {
+        background: rgba($os-light, .6);
+      }
+    }
+  }
+}
+
+// responsive table
+.os-table-responsive {
+  max-width: 100%;
+  overflow-x: auto;
+}

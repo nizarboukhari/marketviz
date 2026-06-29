@@ -1,0 +1,38 @@
+/**
+* Name: Dialogs
+* Author: Symbiosys
+*/
+
+ux-dialog-overlay.active {
+  background-color: rgba($os-dark, .8);
+  opacity: .5;
+}
+
+ux-dialog-container {
+  
+  // color: black;
+
+
+  // :first-child{
+  //   margin-top: 0 !important;
+  // }
+
+  > div > div, ux-dialog {
+    max-width: 100%;
+    min-width: inherit;
+    width: 100%;
+
+    background-color: #0C0C22;
+
+    @include breakpoint(sm) {
+      max-width: 90%;
+      // width: 50rem;
+    }
+  }
+
+  ux-dialog {
+    box-shadow: 0 0 2rem rgba($os-dark, .1);
+    border: none;
+    border-radius: $os-radius;
+  }
+}

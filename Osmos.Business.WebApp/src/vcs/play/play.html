@@ -1,0 +1,226 @@
+<template>
+
+  <require from="resources/formats/small-price-format"></require>
+  <require from="./cell.html"></require>
+  <require from="resources/formats/short-address-format"></require>
+  <require from="resources/elements/scrolling-marquee"></require>
+  <require from="./play.scss"></require>
+
+  <div style="padding-left: 12px; padding-right: 12px;">
+
+    <!-- <div style="margin: 6px;">
+      <input value.bind="text" placeholder="text" />
+      <input value.bind="type" placeholder="type" />
+      <input value.bind="theme" placeholder="theme" />
+    </div> -->
+    <!-- <button click.delegate="scoreChanged()">animate</button> -->
+
+    <scrolling-marquee>
+      <div style="display: flex; font-size: smaller; justify-content: center;">
+        <span repeat.for="item of leaderboard" class="score-item-container">
+          <div>
+            <span>
+              <span if.bind="$index == 0">🏆</span>
+              <span if.bind="$index == 1">🥈</span>
+              <span if.bind="$index == 2">🥉</span>
+              <span if.bind="$index > 2" style="font-size: larger; font-weight: bold;">#${$index + 1}</span>
+            </span>
+          </div>
+          <div class="score-item-info">
+            <div class="text-center ${item.wallet == userInfo.wallet ? 'attention' : ''}">
+              ${item.wallet | shortAddressFormat}
+            </div>
+            <div class="text-right ${item.wallet == userInfo.wallet ? 'attention' : ''}" style="font-size: larger;">
+              <strong>${item.score}</strong>
+            </div>
+          </div>
+        </span>
+      </div>
+    </scrolling-marquee>
+
+    <div>
+      <div class="text-right" style="display: flex; align-items: center; justify-content: flex-end; column-gap: 24px;">
+        <h6 style="padding-top: 6px;">timer: <span
+            class="${averageComputeTime - timer < 0 && averageComputeTime ? 'bad' : averageComputeTime - timer < 2 && averageComputeTime ? 'attention' : 'good'}"
+            style="font-size: larger;">${timer}</span><span>
+            / avg time :
+            ${averageComputeTime.toFixed(1)}</span></h6>
+        <div>
+          <h3 id="score" class="text-right">score: <span>${score}</span></h3>
+        </div>
+      </div>
+      <table id="table" class="os-table" show.bind="gameDataList.length" style="font-size: smaller;">
+        <thead>
+          <tr id="table-header">
+            <th>blocks</th>
+            <th>
+              chart
+            </th>
+            <th repeat.for="gameData of gameDataList.slice(0, 9).reverse()" show.bind="$index >= 5"
+              class="text-center ${$index == 5 ? 'latest-block-header' : $index == 6 ? 'current-block-header' : $index == 8 ? 'prediction-block-header' : $index == 7 ? 'buffer-block-header' : ''}">
+              <div if.bind="$index == 5" style="font-size: smaller;">latest</div>
+              <div if.bind="$index == 6" style="font-size: smaller;">pending</div>
+              <div if.bind="$index == 8" style="font-size: smaller;">prediction</div>
+              ${gameData.id}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: bold;">Compute Time</td>
+            <td>
+              <div id="compute-time-chart" style="max-height: 64px;"></div>
+            </td>
+            <td repeat.for="gameData of gameDataList.slice(0, 9).reverse()" show.bind="$index >= 5"
+              class="text-center ${gameData.future ? 'future' : ''} ${gameData.betStates.computeTime.class} ${$index == 5 ? 'latest-block-cell' :  $index == 8 ? 'prediction-block-cell' : ''}">
+              <cell property.bind="'computeTime'" game-data.bind="gameData"
+                bet-up.call="bet($event, 'computeTime', true)" index.bind="$index"
+                bet-down.call="bet($event, 'computeTime', false)" loading.bind="loading">
+              </cell>
+              <div if.bind="$index == 8">
+                <a href if.bind="gameData.betStates.computeTime.currentBet && !loading" class="cancel-prediction"
+                  click.delegate="deleteBet(gameData.betStates.computeTime)">cancel</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold;">Transactions Count</td>
+            <td>
+              <div id="txns-count-chart" style="max-height: 64px;"></div>
+            </td>
+            <td repeat.for="gameData of gameDataList.slice(0, 9).reverse()" show.bind="$index >= 5"
+              class="text-center ${gameData.future ? 'future' : ''} ${gameData.betStates.txnsCount.class} ${$index == 5 ? 'latest-block-cell' : $index == 8 ? 'prediction-block-cell' : ''}">
+              <cell property.bind="'txnsCount'" game-data.bind="gameData" bet-up.call="bet($event, 'txnsCount', true)"
+                index.bind="$index" bet-down.call="bet($event, 'txnsCount', false)" loading.bind="loading"></cell>
+              <div if.bind="$index == 8">
+                <a href if.bind="gameData.betStates.txnsCount.currentBet && !loading" class="cancel-prediction"
+                  click.delegate="deleteBet(gameData.betStates.txnsCount)">cancel</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold;">Gas Fees</td>
+            <td>
+              <div id="gas-fees-chart" style="max-height: 64px;"></div>
+            </td>
+            <td repeat.for="gameData of gameDataList.slice(0, 9).reverse()" show.bind="$index >= 5"
+              class="text-center ${gameData.future ? 'future' : ''} ${gameData.betStates.gasFees.class} ${$index == 5 ? 'latest-block-cell' :  $index == 8 ? 'prediction-block-cell' : ''}">
+              <cell property.bind="'gasFees'" game-data.bind="gameData" bet-up.call="bet($event, 'gasFees', true)"
+                index.bind="$index" bet-down.call="bet($event, 'gasFees', false)" loading.bind="loading"></cell>
+              <div if.bind="$index == 8">
+                <a href if.bind="gameData.betStates.gasFees.currentBet && !loading" class="cancel-prediction"
+                  click.delegate="deleteBet(gameData.betStates.gasFees)">cancel</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold;">Gas Used</td>
+            <td>
+              <div id="gas-used-chart" style="max-height: 64px;"></div>
+            </td>
+            <td repeat.for="gameData of gameDataList.slice(0, 9).reverse()" show.bind="$index >= 5"
+              class="text-center ${gameData.future ? 'future' : ''} ${gameData.betStates.gasUsed.class} ${$index == 5 ? 'latest-block-cell' :  $index == 8 ? 'prediction-block-cell' : ''}">
+              <cell property.bind="'gasUsed'" game-data.bind="gameData" bet-up.call="bet($event, 'gasUsed', true)"
+                index.bind="$index" bet-down.call="bet($event, 'gasUsed', false)" loading.bind="loading"></cell>
+              <div if.bind="$index == 8">
+                <a href if.bind="gameData.betStates.gasUsed.currentBet && !loading" class="cancel-prediction"
+                  click.delegate="deleteBet(gameData.betStates.gasUsed)">cancel</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold;">Block Size</td>
+            <td>
+              <div id="size-chart" style="max-height: 64px;"></div>
+            </td>
+            <td repeat.for="gameData of gameDataList.slice(0, 9).reverse()" show.bind="$index >= 5"
+              class="text-center ${gameData.future ? 'future' : ''} ${gameData.betStates.size.class} ${$index == 5 ? 'latest-block-cell' :  $index == 8 ? 'prediction-block-cell' : ''}">
+              <cell property.bind="'size'" game-data.bind="gameData" bet-up.call="bet($event, 'size', true)"
+                index.bind="$index" bet-down.call="bet($event, 'size', false)" loading.bind="loading"></cell>
+              <div if.bind="$index == 8">
+                <a href if.bind="gameData.betStates.size.currentBet && !loading" class="cancel-prediction"
+                  click.delegate="deleteBet(gameData.betStates.size)">cancel</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="font-weight: bold;">Eth Price</td>
+            <td>
+              <div id="eth-price-chart" style="max-height: 64px;"></div>
+            </td>
+            <td repeat.for="gameData of gameDataList.slice(0, 9).reverse()" show.bind="$index >= 5"
+              class="text-center ${gameData.future ? 'future' : ''} ${gameData.betStates.ethPrice.class} ${$index == 5 ? 'latest-block-cell' :  $index == 8 ? 'prediction-block-cell' : ''}">
+              <cell property.bind="'ethPrice'" game-data.bind="gameData" bet-up.call="bet($event, 'ethPrice', true)"
+                index.bind="$index" bet-down.call="bet($event, 'ethPrice', false)" loading.bind="loading"></cell>
+              <div if.bind="$index == 8">
+                <a href if.bind="gameData.betStates.ethPrice.currentBet && !loading" class="cancel-prediction"
+                  click.delegate="deleteBet(gameData.betStates.ethPrice)">cancel</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="border-left: none; border-right: none; border-bottom: none; height: 12px;"></td>
+            <!-- <td class="text-center" style="border-left: none; border-right: none; height: 12px;"
+              repeat.for="gameData of gameDataList.slice(0, 9).reverse()" show.bind="$index >= 5"></td> -->
+          </tr>
+          <tr class="text-center" repeat.for="hotToken of hotTokens">
+            <td style="font-weight: bold;">
+              <span
+                style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; display: inline-block; max-width: 192px;">
+                #${$index + 1} - ${hotToken.symbol}(${hotToken.score}) </span>
+              <span class="${hotToken.sourceCodeExists ? 'good': 'bad'}" title="source code exists"><i
+                  class="fas fa-code"></i></span>
+              <span class="${hotToken.renouncedOwnership ? 'good': 'bad'}" title="renounced ownership"><i
+                  class="fas fa-user"></i></span>
+            </td>
+            <td>
+              <div id="token-${$index}-chart" style="max-height: 64px;"></div>
+            </td>
+            <td repeat.for="block of hotToken.blocks.slice(0, 9).reverse()" show.bind="$index >= 5"
+              class="text-center ${block.future ? 'future' : ''} ${block.betStates.token.class} ${$index == 5 ? 'latest-block-cell' :  $index == 8 ? 'prediction-block-cell' : ''}">
+              <span>${block.priceUsd | smallPriceFormat} </span>
+              <i class="fas fa-arrow-up" if.bind="block.priceChange == 1" style="color: green;"></i>
+              <i class="fas fa-arrow-down" if.bind="block.priceChange == -1" style="color: red;"></i>
+              <i class="fas fa-minus" if.bind="block.priceChange == 0" style="color: grey;"></i>
+              <div if.bind="block.bet && !block.betStates.token.currentBet"
+                class="bet-button-container">
+                <button click.delegate="bet($event, 'token', false, hotToken.address)"
+                  disabled.bind="loading">
+                  <i class="fas fa-arrow-down" style="color: red;"></i>
+                </button>
+                <button click.delegate="bet($event, 'token', true, hotToken.address)"
+                  disabled.bind="loading">
+                  <i class="fas fa-arrow-up" style="color: green;"></i>
+                </button>
+              </div>
+              <div if.bind="block.betStates.token">
+                <span if.bind="block.betStates.token.currentBet">
+                  <span style="font-size: smaller; color: rgb(65, 64, 64);">
+                    <span>${block.betStates.token.currentBet.hotToken.priceUsd | smallPriceFormat}</span>
+                    <i class="fas fa-arrow-up" if.bind="block.betStates.token.currentBet.up"></i>
+                    <i class="fas fa-arrow-down" if.bind="!block.betStates.token.currentBet.up"></i>
+                  </span>
+                  <span
+                    if.bind="block.betStates.token.currentBet.groupBetIds.length > 1 && !block.betStates.token.currentBet.pending">
+                    <span if.bind="block.betStates.token.currentBet.soloSuccess" style="color: green;">
+                      <i class="fas fa-check"></i>
+                    </span>
+                    <span if.bind="!block.betStates.token.currentBet.soloSuccess" style="color: red;">
+                      <i class="fas fa-times"></i>
+                    </span>
+                    <span if.bind="block.betStates.token.currentBet.success"
+                      style="color: green;">x${block.betStates.token.currentBet.groupBetIds.length}</span>
+                  </span>
+                </span>
+                <div if.bind="$index == 8">
+                  <a href if.bind="block.betStates.token.currentBet && !loading" class="cancel-prediction"
+                    class="cancel-prediction" click.delegate="deleteBet(block.betStates.token)">cancel</a>
+                </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</template>

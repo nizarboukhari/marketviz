@@ -1,0 +1,87 @@
+/**
+* Name: Tooltip
+* Author: Symbiosys
+*/
+
+.os-tooltip {
+  display: inline-block;
+  position: relative;
+  
+  .icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: $os-dark;
+    color: $white;
+    position: relative;
+    font-style: italic;
+    font-size: 1.2rem;
+    font-family: monospace;
+    border: none;
+    cursor: pointer;
+    outline: none;
+
+    &::after {
+      content: 'i';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    &:focus + .os-tooltip__content {
+      opacity: 1;
+      pointer-events: all;
+      outline: none;
+    }
+  }
+
+  &__content {
+    position: fixed;
+    max-width: 30rem;
+    background: $os-dark;
+    color: $white;
+    border-radius: $os-radius;
+    padding: 1rem;
+    font-size: 1.2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s;
+    transition-delay: .1s;
+    z-index: 300;
+    text-align: left;
+
+    &::before {
+      content: '';
+      width: 0;
+      height: 0;
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border-width: .5rem .5rem .5rem 0;
+      border-style: solid;
+      border-color: transparent $os-dark transparent transparent;
+    }
+  }
+
+  &.left {
+    .os-tooltip__content::before {
+      right: inherit;
+      left: 100%;
+      border-width: .5rem 0 .5rem .5rem;
+      border-style: solid;
+      border-color: transparent transparent transparent $os-dark;
+    }
+  }
+  &.bottom {
+    .os-tooltip__content::before {
+      right: 50%;
+      top: -.5rem;
+      transform: translateY(0) translateX(50%);
+      border-width: 0 .5rem .5rem .5rem;
+      border-style: solid;
+      border-color: transparent transparent $os-dark transparent;
+    }
+  }
+}

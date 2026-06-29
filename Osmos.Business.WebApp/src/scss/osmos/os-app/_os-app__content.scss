@@ -1,0 +1,29 @@
+/**
+* Name: App Content
+* Author: Symbiosys
+*/
+
+.os-app {
+
+  .vh-100 {
+
+    @include breakpoint(md) {
+      display: flex;
+      flex-direction: column;
+      margin-top: 0;
+      margin-bottom: 0;
+      height: calc((100vh - #{$navbar-height + $os-app-container-pd} - #{$os-app-container-pd}));
+      
+
+      > div:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &.has-breadcrumb .vh-100 {
+    @include breakpoint(md) {
+      height: calc((100vh - #{$navbar-height + $breadcrumb-height + ($os-app-container-pd * 2)}));
+    }
+  }
+}

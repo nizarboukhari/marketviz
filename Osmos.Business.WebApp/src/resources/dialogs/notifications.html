@@ -1,0 +1,64 @@
+<template>
+
+  <require from="resources/formats/short-address-format"></require>
+  <require from="resources/formats/humanize-moment-format"></require>
+
+  <div style="padding: 6px;">
+    <div class="text-right">
+      <i class="fas fa-times" style="cursor: pointer;" click.delegate="controller.cancel()"></i>
+      <hr />
+    </div>
+
+    <!-- <div>
+      notifications in the last 30 min: ${txnNotifications.length}
+    </div> -->
+
+    <div id="chart-container" style="height: 240px;"></div>
+
+    <div style="height: 480px; overflow-y: scroll;">
+      <div class="text-center" if.bind="!txnNotifications.length">no notifications yet..</div>
+      <div repeat.for="txnNotification of txnNotifications" style="border-bottom: dashed; padding: 6px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <b class="${typeToClass(txnNotification.type)}" style="font-size: larger;">${txnNotification.type}</b>
+          <span style="font-size: smaller; font-style: italic;">${txnNotification.createdDate |
+            humanizeMomentFormat}</span>
+        </div>
+        <div style="display: flex; column-gap: 3px; margin-top: 3px;">
+          <span>token: </span>
+          <a href="https://etherscan.io/token/${txnNotification.tokenAddress}" target="_blank"
+            style="text-decoration: underline;"><b
+              style="display:inline-block; width:240px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${txnNotification.tokenDisplayName}</b></a>
+        </div>
+        <div>
+          txn: <a href="https://etherscan.io/tx/${txnNotification.txnHash}" target="_blank"
+            style="text-decoration: underline;"><b>0x${txnNotification.txnHash.substring(2,
+              4)}..${txnNotification.txnHash.slice(-3)}</b></a>
+        </div>
+        <div>
+          maker: <a href="https://etherscan.io/address/${txnNotification.makerAddress}" target="_blank"
+            style="text-decoration: underline;"><b>0x${txnNotification.makerAddress.substring(2,
+              4)}..${txnNotification.makerAddress.slice(-3)}</b></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .token-creation {
+      color: rgb(5, 158, 253);
+    }
+
+    .renounced-ownership {
+      color: #9CCC3D;
+    }
+
+    .removed-liquidity {
+      color: #FDAD33;
+    }
+
+    .set-fees {
+      color: rgb(5, 158, 253);
+    }
+  </style>
+
+</template>

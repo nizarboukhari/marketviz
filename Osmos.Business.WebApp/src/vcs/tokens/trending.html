@@ -1,0 +1,274 @@
+<template>
+  <require from="./trending.scss"></require>
+  <require from="resources/formats/timestamp-format"></require>
+  <require from="resources/formats/humanize-timestamp-format"></require>
+  <require from="resources/formats/short-address-format"></require>
+  <require from="resources/elements/scrolling-marquee"></require>
+  <require from="./watch-token"></require>
+
+  <scrolling-marquee>
+    <div style="display: flex; margin-bottom: 18px; margin-right: 12px; margin-left: 12px;">
+      <div repeat.for="item of rawResult" class="marquee-token-container ${item.token.address == token.address ? 'active' : ''}" click.delegate="watchToken(item.token)">
+        <span class="marquee-rank ${item.token.address == token.address ? 'active-token' : ''}">#${$index + 1}.</span>
+        <span class="token-name marquee-name ${item.token.address == token.address ? 'active-token' : ''}"
+          title="${!userInfo && $index == 0 ? '...' : item.token.name + ' ' + item.token.symbol}">
+          <span show.bind="!(!userInfo && $index == 0)">${item.token.symbol}</span> 
+          <span show.bind="!userInfo && $index == 0" style="font-style: italic; color: grey;">HIDDEN</span> 
+        </span>
+        <span class="marquee-info ${item.token.sourceCode && !item.token.sourceCode.missing ? 'good': 'bad'}"
+          title="source code exists" show.bind="item.token.address != token.address && !(!userInfo && $index == 0)">
+          <i class="fas fa-code"></i>
+        </span>
+        <span
+          class="marquee-info ${item.token.owner.length == 42 && item.token.owner == '0x0000000000000000000000000000000000000000' ? 'good': 'bad'}"
+          show.bind="item.token.address != token.address && !(!userInfo && $index == 0)">
+          <i class="fas fa-user"></i>
+        </span>
+        <span class="marquee-score ${item.token.address == token.address ? 'active-token' : ''}">
+          <span show.bind="!(!userInfo && $index == 0)">
+            (${item.score}
+            <span class="marquee-score-diff">
+              <span if.bind="item.scoreDiff < 0" style="color: rgb(207, 41, 41);">${item.scoreDiff}</span>
+              <span if.bind="item.scoreDiff > 0" style="color: rgb(37, 134, 37);">+${item.scoreDiff}</span>
+            </span>
+            )
+          </span>
+        </span>
+      </div>
+    </div>
+  </scrolling-marquee>
+
+  <div if.bind="dataInfos && userInfo" class="data-infos">
+    <div class="pr-1 block-infos">
+      <div class="text-center real-time block-infos-item" style="font-size: 15px; color: #63fcdc;">
+        <b>current block</b>
+        <div style="margin-top: -3px;">${dataInfos.currentBlock.number}</div>
+      </div>
+      <div class="mr-1 text-center block-infos-item" style="border-left: 1px solid darkgray;">
+        <b style="color: #FDAD33;">pending txns</b>
+        <div style="font-size: larger; color: #FDAD33;">${dataInfos.currentBlock.txnsCount}</div>
+      </div>
+    </div>
+    <div class="pl-1 block-infos">
+      <div class="mr-1 text-center block-infos-item">
+        <b style="color: #999999;">previous block</b>
+        <div style="font-size: larger;">${dataInfos.previousBlock.number}</div>
+      </div>
+      <div class="mr-1 text-center block-infos-item" style="border-left: 1px solid darkgray;">
+        <b style="color: #999999;">succeeded/failed txns</b>
+        <div style="font-size: larger;">
+          <span style="color: #6CCA97;">${dataInfos.previousBlock.succeededTxnsCount}</span>/<span
+            style="color: #E54D4F;">${dataInfos.previousBlock.failedTxnsCount}</span>
+        </div>
+      </div>
+    </div>
+    <div class="pl-1 block-infos">
+      <div class="mr-1 text-center block-infos-item">
+        <b style="color: #999999;">eth price (USD)</b>
+        <div style="font-size: larger;">
+          <span>${ethPrice}</span>
+        </div>
+      </div>
+      <div class="mr-1 text-center block-infos-item" style="border-left: 1px solid darkgray;">
+        <b style="color: #999999;">gas fees (Gwei)</b>
+        <div style="font-size: larger;">
+          <span>${(dataInfos.gasFees / 1000000000).toFixed(2)}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div>
+    <a href click.delegate="setShowList(false)">show graph</a>
+    <a href click.delegate="setShowList(true)">show list</a>
+  </div> -->
+
+  <!-- <form if.bind="result.length && !token" submit.delegate="getToken()"
+    style="margin-top: 12px; display: flex; justify-content: center;">
+    <div class="form-group" style="position: relative;">
+      <input class="os-form-element"
+        style="max-width: 360px; height: 36px; border-radius: 18px; background-color: #272630; padding-left: 36px; color: white;"
+        placeholder="token address.." value.bind="address" />
+      <span class="fas fa-search"
+        style="position: absolute; top: 50%; transform: translateY(-50%); left: 12px; font-size: 16px; color: #ccc; cursor: pointer;"
+        click.delegate="getToken()"></span>
+    </div>
+  </form> -->
+
+  <div show.bind="!result.length" style="width: 100%" class="text-center mt-4">
+    Loading..
+  </div>
+
+  <div show.bind="result.length && !token && showList && userInfo" class="text-center mt-1">
+    <a href class="ml-1" click.delegate="resetSort()">
+      <i class="fas fa-angle-double-down" if.bind="!sort.prop"></i> Score
+    </a>
+    <a href class="ml-1" click.delegate="setSort('date', $event)">
+      <span if.bind="sort.prop == 'date'">
+        <i class="fas fa-angle-double-up" if.bind="sort.desc"></i>
+        <i class="fas fa-angle-double-down" if.bind="!sort.desc"></i>
+      </span>
+      Date
+    </a>
+    <a href class="ml-1" click.delegate="setSort('mrktcap', $event)">
+      <span if.bind="sort.prop == 'mrktcap'">
+        <i class="fas fa-angle-double-up" if.bind="sort.desc"></i>
+        <i class="fas fa-angle-double-down" if.bind="!sort.desc"></i>
+      </span>
+      MrktCap
+    </a>
+    <!-- <a href class="ml-1" click.delegate="setSort('holders', $event)">
+      <span if.bind="sort.prop == 'holders'">
+        <i class="fas fa-angle-double-up" if.bind="sort.desc"></i>
+        <i class="fas fa-angle-double-down" if.bind="!sort.desc"></i>
+      </span>
+      Holders
+    </a> -->
+  </div>
+
+  <!-- <p class="title main">TRENDING</p> -->
+  <div class="cards container-extended" id="cardsContainer" show.bind="!token && showList">
+    <div repeat.for="item of result" class="${getCardClass(item)}" style="border-radius: 8px;">
+      <div class="${token.address == item.token.address ? 'card-active' : 'card'} ${item.promoted ? 'promoted' : ''}">
+        <div class="info">
+          <div class="txn">
+            <p style="display: flex; align-items: flex-start; text-decoration: underline; flex-direction: column; margin-bottom: 2px;"
+              click.delegate="copyTokenAddress(item.token)"><span class="token-name list-name"
+                title="${item.token.name} (${item.token.symbol})">${item.token.name} (${item.token.symbol})</span>
+                <span style="font-size: smaller; font-style: italic; color: lightgray; margin-top: -3px;">
+                  <i id="copy-${item.token.address}" class="far fa-copy" title="copy token address" style="cursor: pointer;"></i>
+                  copy address
+                </span>
+             </p>
+            <p>Created <span
+                if.bind="item.token.pairTradingData.pairCreatedAt">${item.token.pairTradingData.pairCreatedAt |
+                humanizeTimestampFormat}</span>
+              <strong if.bind="!item.token.pairTradingData.pairCreatedAt">NA</strong>
+            </p>
+            <!-- <p if.bind="item.token.tokenInfo.holdersCount && item.token.tokenInfo.holdersCount != 1">${item.token.tokenInfo.holdersCount} Holders</p>
+            <p if.bind="!(item.token.tokenInfo.holdersCount && item.token.tokenInfo.holdersCount != 1)">NA</p> -->
+          </div>
+          <div class="btns">
+            <a href="https://app.uniswap.org/#/swap?outputCurrency=${item.token.address}&chain=mainnet" target="_blank" style="text-decoration: underline;"
+              class="icons normal-link">Buy
+            </a>
+            <a id="eye-${item.token.address}" show.bind="!item.promoted"
+              class="icons eye-idle ${token.address == item.token.address ? 'button-watching' : 'button-default'}"
+              click.delegate="watchToken(item.token)">
+              <i class="bx ${token.address == item.token.address ? 'bx-hide' : 'bx-show'}" id="eye"></i> Watch
+            </a>
+          </div>
+        </div>
+
+        <div class="transactions">
+          <div class="table-row header">
+            <div class="text"></div>
+            <div class="num">5m</div>
+            <div class="num">1h</div>
+            <div class="num">6h</div>
+            <div class="num">24h</div>
+          </div>
+
+          <div class="table-row">
+            <div class="text">Price</div>
+            <div
+              class="num ${item.token.pairTradingData.priceChange.m5 < 0 ? 'status3' : item.token.pairTradingData.priceChange.m5 > 0 ? 'status1' : ''}">
+              ${formatCash(item.token.pairTradingData.priceChange.m5)}%</div>
+            <div
+              class="num ${item.token.pairTradingData.priceChange.h1 < 0 ? 'status3' : item.token.pairTradingData.priceChange.h1 > 0 ? 'status1' : ''}">
+              ${formatCash(item.token.pairTradingData.priceChange.h1)}%</div>
+            <div
+              class="num ${item.token.pairTradingData.priceChange.h6 < 0 ? 'status3' : item.token.pairTradingData.priceChange.h6 > 0 ? 'status1' : ''}">
+              ${formatCash(item.token.pairTradingData.priceChange.h6)}%</div>
+            <div
+              class="num ${item.token.pairTradingData.priceChange.h24 < 0 ? 'status3' : item.token.pairTradingData.priceChange.h24 > 0 ? 'status1' : ''}">
+              ${formatCash(item.token.pairTradingData.priceChange.h24)}%</div>
+          </div>
+
+          <div class="table-row">
+            <div class="text">Txns</div>
+            <div class="num"><span class="status1">${formatCash(item.token.pairTradingData.txns.m5.buys)}</span>/<span
+                class="status3">${formatCash(item.token.pairTradingData.txns.m5.sells)}</span></div>
+            <div class="num"><span class="status1">${formatCash(item.token.pairTradingData.txns.h1.buys)}</span>/<span
+                class="status3">${formatCash(item.token.pairTradingData.txns.h1.sells)}</span></div>
+            <div class="num"><span class="status1">${formatCash(item.token.pairTradingData.txns.h6.buys)}</span>/<span
+                class="status3">${formatCash(item.token.pairTradingData.txns.h6.sells)}</span></div>
+            <div class="num"><span class="status1">${formatCash(item.token.pairTradingData.txns.h24.buys)}</span>/<span
+                class="status3">${formatCash(item.token.pairTradingData.txns.h24.sells)}</span></div>
+          </div>
+
+          <div class="table-row">
+            <div class="text">Volume</div>
+            <div class="num">${formatCash(item.token.pairTradingData.volume.m5)}</div>
+            <div class="num">${formatCash(item.token.pairTradingData.volume.h1)}</div>
+            <div class="num">${formatCash(item.token.pairTradingData.volume.h6)}</div>
+            <div class="num">${formatCash(item.token.pairTradingData.volume.h24)}</div>
+          </div>
+        </div>
+
+        <div class="tokenomics">
+          <p class="numbers"><span>Price</span> <span>$${toExpoNotation(item.token.pairTradingData.priceUsd)}</p>
+          <p class="numbers"><span>MktCap</span> <span>$${formatCash(item.token.pairTradingData.fdv)}</span></p>
+          <p class="numbers"><span>Liquidity</span>
+            <span>$${formatCash(item.token.pairTradingData.liquidity.usd/2)}</span>
+          </p>
+        </div>
+
+        <div class="links">
+          <div class="links-row-0">
+            <p class="numbers" style="font-size: larger;" show.bind="!item.promoted">
+              <span>Score</span> <span class="big" style="font-size: larger;">${item.score}</span>
+              <span style="padding-left: 1px; font-size: small;">
+                <span if.bind="item.scoreDiff < 0" style="color: rgb(207, 41, 41);">(${item.scoreDiff})</span>
+                <!-- <span if.bind="item.scoreDiff == 0" style="color: grey;">(${item.scoreDiff})</span> -->
+                <span if.bind="item.scoreDiff > 0" style="color: rgb(37, 134, 37);">(+${item.scoreDiff})</span>
+              </span>
+            </p>
+            <p class="numbers" show.bind="item.promoted" style="font-style: italic;">
+              <i class="fas fa-heart"></i>PROMOTED TOKEN
+            </p>
+            <div>
+              <span if.bind="item.token.sourceCode && !item.token.sourceCode.missing" title="source code exists"
+                style="color: rgb(37, 134, 37); cursor: pointer; text-decoration: underline;"
+                click.delegate="openSourceCodeDialog(item.token.name, item.token.sourceCode)">
+                <i class="fas fa-code"></i>code
+              </span>
+              <span if.bind="!item.token.sourceCode || item.token.sourceCode.missing" title="source code missing"
+                style="color: rgb(207, 41, 41);">
+                <i class="fas fa-code"></i>code
+              </span>
+            </div>
+            <a href="https://etherscan.io/address/${item.token.owner}" class="icons"
+              if.bind="item.token.owner.length == 42 && item.token.owner != '0x0000000000000000000000000000000000000000'"
+              target="_blank" style="text-decoration: underline; color: rgb(207, 41, 41);"><i class="fas fa-user"></i>owner</a>
+            <span style="color: rgb(37, 134, 37);"
+              if.bind="item.token.owner.length == 42 && item.token.owner == '0x0000000000000000000000000000000000000000'">
+              <i class="fas fa-user"></i>0xdEaD
+            </span>
+            <span if.bind="item.token.owner.length != 42" style="color: rgb(207, 41, 41);">
+              <i class="fas fa-user-alt-slash"></i>owner
+            </span>
+          </div>
+          <div class="links-row-1">
+            <a href="https://etherscan.io/token/${item.token.address}" target="_blank" class="icons"><img
+                src="../../images/etherscan.svg" alt="Etherscan" class="svgIcon"><span>Etherscan</span></a>
+
+            <a href="https://dexscreener.com/ethereum/${item.token.pairAddress ? item.token.pairAddress : item.token.address}"
+              target="_blank" class="icons"><img src="../../images/dex.svg" alt="DexScreener"
+                class="svgIcon"><span>Chart</span></a>
+
+            <a href="https://tokensniffer.com/token/eth/${item.token.address}" target="_blank" class="icons"><img
+                src="../../images/sniffer.svg" alt="TokenSniffer" class="svgIcon"><span>Sniffer</span></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="graph-container" style="height: 720px; width: 1080px; border: 1px solid pink; background-color: white;" show.bind="!showList"></div>
+  <button click.delegate="zoomToFit()" class="mb-4" show.bind="!showList">zoom to fit</button>
+
+  <token-info show.bind="token" token.bind="token"></token-info>
+
+</template>

@@ -1,0 +1,90 @@
+/**
+* Name: Grid
+* Author: Symbiosys
+*/
+
+$breakpoints: sm, md, lg;
+
+.os-grid {
+  // display: flex;
+  margin-left: -#{$os-grid-gap / 2}rem;
+  margin-right: -#{$os-grid-gap / 2}rem;
+  // margin-bottom: #{$os-grid-gap}rem;
+
+  & + .os-grid {
+    margin-top: #{$os-grid-gap}rem;
+  }
+
+  &--center {
+    justify-content: center;
+  }
+
+  &__exemple {
+    background: $white;
+    box-shadow: 0 .2rem 0 rgba($os-dark, .1);
+    padding: 1rem;
+    height: 100%;
+    border-radius: $os-radius;
+  }
+
+  &.nested {
+    flex-wrap: wrap;
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  @each $bp in $breakpoints {
+    @include breakpoint($bp) {
+      &.nested-#{$bp} {
+        flex-wrap: wrap;
+
+        > *:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+
+  @include breakpoint(sm) {
+    display: flex;
+    margin-left: -#{$os-grid-gap}rem;
+    margin-right: -#{$os-grid-gap}rem;
+  }
+
+  > * {
+    flex-basis: 100%;
+    padding-left: #{$os-grid-gap / 2}rem;
+    padding-right: #{$os-grid-gap / 2}rem;
+    margin-bottom: #{$os-grid-gap / 1.5}rem;
+
+    @include breakpoint(sm) {
+      padding-left: #{$os-grid-gap}rem;
+      padding-right: #{$os-grid-gap}rem;
+      margin-bottom: 0;
+    }
+
+    // grid item breakpoints
+    @each $bp in $breakpoints {
+      @include breakpoint($bp) {
+        @for $i from 1 through $os-grid-columns {
+          &.#{$bp}-#{$i} {
+            flex: 0;
+            flex-basis: calc(100% / (#{$os-grid-columns} / #{$i})) !important;
+          }
+
+          &.push-#{$bp}-#{$i} {
+            margin-left: calc(100% / (#{$os-grid-columns} / #{$i}));
+          }
+          &.pull-#{$bp}-#{$i} {
+            margin-left: calc(100% / (#{$os-grid-columns} / -#{$i}));
+          }
+        }
+        &.last-#{$bp} {
+          order: 2;
+        }
+      }
+    }
+  }
+}

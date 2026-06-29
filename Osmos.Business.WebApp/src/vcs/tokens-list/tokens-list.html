@@ -1,0 +1,27 @@
+<template>
+  <div class="text-center">
+    <h1>Tokens</h1>
+  </div>
+
+  <table class="os-table" if.bind="tokens.length">
+    <thead>
+      <tr>
+        <th>address</th>
+        <th>name</th>
+        <th>symbol</th>
+        <th>owner</th>
+        <th>txns</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr repeat.for="token of tokens">
+        <td>${token.id}</td>
+        <td>${token.name}</td>
+        <td>${token.symbol}</td>
+        <td>${token.owner}</td>
+        <td>${token.count}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</template>

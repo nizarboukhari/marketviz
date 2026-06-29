@@ -1,0 +1,32 @@
+/**
+* Name: Alerts
+* Author: Symbiosys
+*/
+
+$alerts: (
+  info: $os-primary,
+  success: $os-success,
+  warning: $os-warning,
+  error: $os-error
+); 
+
+.os-alert {
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-radius: $os-radius;
+  position: relative;
+
+  @each $c, $alert in $alerts {
+    &--#{$c} {
+      background: rgba($alert, .2);
+      color: darken($alert, 20%);
+    }
+  }
+
+  .close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,78 @@
+/**
+* Name: Types
+* Author: Symbiosys
+*/
+
+// titles
+$titles: (
+  h1: 3rem,
+  h2: 2.5rem,
+  h3: 2rem,
+  h4: 1.8rem,
+  h5: 1.5rem,
+  h6: 1rem
+);
+
+@each $key, $title in $titles {
+  #{$key} {
+    font-size: $title / 1.2;
+    line-height: 1.2;
+    margin: .5rem 0;
+
+    small {
+      font-weight: initial;
+      font-size: 65%;
+    }
+
+    @include breakpoint(sm) {
+      font-size: $title;
+      margin: 1rem 0;
+    }
+  }
+}
+
+// links
+a {
+  color: $os-primary;
+  transition: color .3s;
+  position: relative;
+  &:hover {
+    color: darken($os-primary, 10%);
+  }
+}
+
+// paragraph
+p {
+  margin-top: 0;
+  margin-bottom: .5rem;
+}
+
+// text alignement
+$aligns: center, right, left;
+@each $align in $aligns {
+	.text-#{$align} { text-align: $align !important; }
+}
+
+// text color
+$colors: (
+  primary: $os-primary,
+  secondary: $os-secondary,
+  success: $os-success,
+  warning: $os-warning,
+  error: $os-error,
+  dark: $os-dark,
+  light: $os-light,
+  muted: rgba($os-dark, .5)
+);
+
+@each $c, $color in $colors {
+  .text-#{$c} {
+    color: $color;
+  } 
+}
+
+.text-ellipsis {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

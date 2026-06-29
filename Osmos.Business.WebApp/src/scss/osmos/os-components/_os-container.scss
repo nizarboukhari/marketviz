@@ -1,0 +1,15 @@
+/**
+* Name: Container
+* Author: Symbiosys
+*/
+
+.os-container {
+  max-width: calc(100% - 4rem);
+  width: $os-container;
+  margin: 0 auto;
+
+  &--fluid {
+    width: calc(100% - 4rem);
+    margin: 0 auto;
+  }
+}

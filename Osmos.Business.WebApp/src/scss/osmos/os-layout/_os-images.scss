@@ -1,0 +1,15 @@
+/**
+* Name: os images
+* Author: Symbiosys
+*/
+
+img {
+  max-width: 100%;
+
+  &.img-rounded {
+    border-radius: $os-radius;
+  }
+  &.img-circle {
+    border-radius: 50%;
+  }
+}

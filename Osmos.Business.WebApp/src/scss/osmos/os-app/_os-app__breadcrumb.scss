@@ -1,0 +1,45 @@
+/**
+* Name: App Breadcrumb
+* Author: Symbiosys
+*/
+
+
+.aurelia-crumbs {
+  padding: 0 2rem;
+  height: $breadcrumb-height;
+  border-bottom: .1rem solid $os-light;
+  display: flex;
+  align-items: center;
+  background: $white;
+
+  @include breakpoint(md) {
+    position: fixed;
+    top: $navbar-height;
+    left: $sidebar-width;
+    right: 0;
+    z-index: 100;
+  }
+
+  > span > span > span {
+    display: none;
+  }
+
+  > span:not(:last-child) {
+    a {
+      margin-right: 1rem;
+      &::after {
+        content: $bc-separator;
+        display: inline-block;
+        margin-left: 1rem;
+        font-weight: normal;
+      }
+    }
+  }
+
+  a {
+    display: inline-block;
+    text-decoration: none;
+    color: $os-dark;
+    font-size: 1.2rem;
+  }
+}

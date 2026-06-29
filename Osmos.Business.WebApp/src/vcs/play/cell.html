@@ -1,0 +1,33 @@
+<template bindable="gameData, property, betUp, betDown, loading, index, deleteBet">
+  <span>${gameData[property]}</span>
+  <i class="fas fa-arrow-up" if.bind="gameData.changes[property] == 1" style="color: green;"></i>
+  <i class="fas fa-arrow-down" if.bind="gameData.changes[property] == -1" style="color: red;"></i>
+  <i class="fas fa-minus" if.bind="gameData.changes[property] == 0" style="color: grey;"></i>
+  <div if.bind="gameData.bet && !gameData.betStates[property].currentBet" class="bet-button-container">
+    <button click.delegate="betDown($event)" disabled.bind="loading">
+      <i class="fas fa-arrow-down" style="color: red;"></i>
+    </button>
+    <button click.delegate="betUp($event)" disabled.bind="loading">
+      <i class="fas fa-arrow-up" style="color: green;"></i>
+    </button>
+  </div>
+  <div if.bind="gameData.betStates[property]">
+    <span if.bind="gameData.betStates[property].currentBet">
+      <span style="color: rgb(65, 64, 64);">
+        <span>${gameData.betStates[property].currentBet.sourceGameData[property]}</span>
+        <i class="fas fa-arrow-up" if.bind="gameData.betStates[property].currentBet.up"></i>
+        <i class="fas fa-arrow-down" if.bind="!gameData.betStates[property].currentBet.up"></i>
+      </span>
+      <span
+        if.bind="gameData.betStates[property].currentBet.groupBetIds.length > 1 && !gameData.betStates[property].currentBet.pending">
+        <span if.bind="gameData.betStates[property].currentBet.soloSuccess" style="color: green;">
+          <i class="fas fa-check"></i>
+        </span>
+        <span if.bind="!gameData.betStates[property].currentBet.soloSuccess" style="color: red;">
+          <i class="fas fa-times"></i>
+        </span>
+        <span
+          if.bind="gameData.betStates[property].currentBet.success" style="color: green;">x${gameData.betStates[property].currentBet.groupBetIds.length}</span>
+      </span>
+    </span>
+</template>

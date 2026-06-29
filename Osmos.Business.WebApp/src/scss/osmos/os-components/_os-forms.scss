@@ -1,0 +1,86 @@
+/**
+* Name: Forms
+* Author: Symbiosys
+*/
+
+form {
+
+  .form-group {
+    margin-bottom: #{$os-grid-gap / 1.5}rem;
+
+    @include breakpoint(md) {
+      margin-bottom: #{$os-grid-gap * 1.5}rem;
+    }
+  }
+
+  .os-form-element, .form-control {
+    font: inherit;
+    display: block;
+    width: 100%;
+    border-radius: $os-radius;
+    border: .2rem solid rgba($os-dark, .2);
+    font-size: $os-font-size;
+    padding: 1rem 1.2rem;
+
+    &:focus {
+      outline-color: $os-primary;
+    }
+    
+    // errors
+    &.has-errors {
+      border-color: $os-error;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 15rem;
+  }
+
+  label {
+    display: inline-block;
+    margin-bottom: .5rem;
+    position: relative;
+  }
+
+  .os-checkbox, .os-radio {
+    position: relative;
+    input {
+      position: absolute;
+      transform: scale3d(0,0,0);
+      height: 0;
+
+      &:checked + label::after {
+        transform: scale(.7) translateY(-50%);
+        transform-origin: 50% .1rem;
+        background: $os-primary;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        display: inline-block;
+      }
+    }
+    label::before, label::after {
+      content: '';
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: .2rem solid rgba($os-dark, .2);
+      margin-right: 0.5rem;
+      vertical-align: bottom;
+    }
+    label::after {
+      display: none;
+    }
+  }
+  .os-checkbox {
+    label:before, label::after {
+      border-radius: $os-radius;
+    }
+  }
+  .os-radio {
+    label:before, label::after {
+      border-radius: 50%;
+    }
+  }
+}

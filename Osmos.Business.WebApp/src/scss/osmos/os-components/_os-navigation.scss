@@ -1,0 +1,97 @@
+/**
+* Name: Navigations
+* Author: Symbiosys
+*/
+
+.os-nav {
+
+  .head {
+    z-index: 2;
+    position: relative;
+
+    @include breakpoint(sm) {
+      display: flex;
+    }
+
+    a {
+      color: $os-dark;
+      text-decoration: none;
+      padding: 1rem;
+      display: block;
+      text-align: center;
+      transition: all .3s;
+
+      @include breakpoint(sm){
+        padding: 1rem 2rem;
+        transform: translateY(.1rem);
+      }
+
+      &:hover {
+        background: $os-light;
+      }
+
+      &.active {
+        background: $os-dark;
+        color: $white;
+      }
+    }
+  }
+
+  .content {
+    transform: translateY(-.1rem);
+
+    &.bordered {
+      padding: 2rem;
+      border: .1rem solid $os-light;
+    }
+  }
+
+  &--tabs {
+
+    .head {
+      border-bottom: .1rem solid $os-light;
+      a {
+        @include breakpoint(sm) {
+          border-top-left-radius: $os-radius;
+          border-top-right-radius: $os-radius;
+        }
+      }
+    }
+  }
+  
+  &--pills {
+    .head {
+      a {
+        border-radius: 2rem;
+        @include breakpoint(sm) {
+          margin-right: .5rem;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &.vertical {
+    @include breakpoint(sm) {
+      display: flex;
+
+      .head {
+        display: flex;
+        flex-direction: column;
+        margin-right: 1rem;
+        border-right: .1rem solid $os-light;
+        border-bottom: 0;
+
+        a {
+          border-radius: $os-radius 0 0 $os-radius;
+        }
+      }
+
+      .content {
+        flex: 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "debug": false,
+  "testing": false,
+  "apiUrl": "https://mrktviz-api.azurewebsites.net/",
+  "rtUrl": "https://mrktviz-api.azurewebsites.net/appHub"
+}

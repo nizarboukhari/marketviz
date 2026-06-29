@@ -1,0 +1,21 @@
+/**
+* Name: OMOS Blocs
+* Author: Symbiosys
+*/
+
+.os-bloc {
+  padding: 1rem;
+  background: $white;
+  border-radius: $os-radius;
+  box-shadow: 0 .2rem 0 rgba($os-dark, .1);
+
+  @include breakpoint(md) {
+    padding: 2rem !important;
+  }
+}
+
+.vh-100 {
+  .os-bloc {
+    height: calc(100% - #{$os-grid-gap * 1.5}rem);
+  }
+}

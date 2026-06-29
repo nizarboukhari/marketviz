@@ -1,0 +1,37 @@
+/**
+* Name: Card
+* Author: Symbiosys
+*/
+
+.os-card {
+  overflow: hidden;
+  border: .1rem solid $os-light;
+  border-radius: $os-radius;
+  background: $white;
+  box-shadow: 0 .2rem 0rem rgba($os-dark, .1);
+  margin-bottom: 1rem;
+}
+
+.os-card__head {
+  display: flex;
+  img {
+    width: 100%;
+    max-height: 30rem;
+    object-fit: cover;
+  }
+}
+
+.os-card__content {
+  padding: 1rem;
+
+  p {
+    font-size: 1.3rem;
+    color: rgba($os-dark, .8);
+  }
+}
+
+.os-card__footer {
+  border-top: .1rem solid $os-light;
+  text-align: right;
+  padding: 1rem;
+}

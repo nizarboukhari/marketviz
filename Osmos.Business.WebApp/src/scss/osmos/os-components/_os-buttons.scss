@@ -1,0 +1,107 @@
+/**
+* Name: Buttons
+* Author: Symbiosys
+*/
+
+$colors: (
+  primary: $os-primary,
+  secondary: $os-secondary,
+  success: $os-success,
+  warning: $os-warning,
+  error: $os-error,
+  dark: $os-dark,
+  light: $os-light
+);
+
+.btn-group {
+  .btn {
+    margin: 0.5rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+.btn {
+  font: inherit;
+  display: inline-block;
+  font-size: $os-font-size;
+  padding: .8rem 2rem;
+  border: none;
+  border-radius: $os-radius;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+
+  &:disabled, &[disabled] {
+    opacity: .5;
+    pointer-events: none;
+  }
+
+  // rounded buttons
+  &--rounded {
+    border-radius: 2rem;
+  }
+
+  // btn block
+  &--block {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// btn colors
+@each $c, $color in $colors {
+  .btn--os-#{$c} {
+    background: $color;
+    color: $white;
+    transition: all .3s;
+
+    @if(lightness($color) > 60) {
+      color: $os-dark;
+    }
+
+    &:hover {
+      background: darken($color, 5%);
+      color: $white;
+
+      @if(lightness($color) > 60) {
+        color: $os-dark;
+      }
+    }
+  }
+
+  // outline buttons
+  .btn--os-#{$c}--outline {
+    @extend .btn--os-#{$c};
+    background: none;
+    border: .1rem solid $color;
+    color: $color;
+  }
+
+}
+
+// btn-list
+.btn-list {
+  display: flex;
+
+  .btn {
+    margin: 0;
+    border-radius: 0;
+
+    &:first-child {
+      border-top-left-radius: $os-radius;
+      border-bottom-left-radius: $os-radius;
+    }
+    &:last-child {
+      border-top-right-radius: $os-radius;
+      border-bottom-right-radius: $os-radius;
+    }
+  }
+}

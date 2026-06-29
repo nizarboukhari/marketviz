@@ -1,0 +1,198 @@
+/**
+* Name: Helpers
+* Author: Symbiosys
+*/
+
+/* margins & paddings
+*****************
+*/
+$max: 10;
+
+$pm: (
+  l: left,
+  r: right,
+  t: top,
+  b: bottom
+);
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+@each $side, $pad in $pm {
+  @for $i from 0 through $max {
+    .p#{$side}-#{$i} {
+      padding-#{$pad}: $i / 2 + rem;
+
+      @include breakpoint(sm) {
+        padding-#{$pad}: $i + rem;
+      }
+    }
+  }
+}
+@for $i from 0 through $max {
+  .px-#{$i} {
+    padding-right: $i / 2 + rem;
+    padding-left: $i / 2 + rem;
+
+    @include breakpoint(sm) {
+      padding-top: $i + rem;
+      padding-bottom: $i + rem;
+    }
+  }
+  .py-#{$i} {
+    padding-top: $i / 2 + rem;
+    padding-bottom: $i / 2 + rem;
+
+    @include breakpoint(sm) {
+      padding-top: $i + rem;
+      padding-bottom: $i + rem;
+    }
+  }
+}
+
+@each $side, $marg in $pm {
+  @for $i from 0 through $max {
+    .m#{$side}-#{$i} {
+      margin-#{$marg}: $i / 2 + rem;
+
+      @include breakpoint(sm) {
+        margin-#{$marg}: $i + rem;
+      }
+    }
+  }
+}
+@for $i from 0 through $max {
+  .mx-#{$i} {
+    margin-right: $i / 2 + rem;
+    margin-left: $i / 2 + rem;
+
+    @include breakpoint(sm) {
+      margin-right: $i + rem;
+      margin-left: $i + rem;
+    }
+  }
+  .my-#{$i} {
+    margin-top: $i / 2 + rem;
+    margin-bottom: $i / 2 + rem;
+
+    @include breakpoint(sm) {
+      margin-top: $i + rem;
+      margin-bottom: $i + rem;
+    }
+  }
+}
+
+/* block display
+*****************
+*/
+$displays: block, inline, inline-block;
+@each $display in $displays {
+  .os-#{$display} {
+    display: $display !important;
+  }
+}
+
+/* block position
+*****************
+*/
+$positions: sticky, absolute, relative, fixed;
+@each $position in $positions {
+  .os-#{$position} {
+    position: $position !important;
+  }
+}
+
+/* code
+*****************
+*/
+pre,
+code {
+  max-width: 100%;
+  display: block;
+  padding: 0 !important;
+  background: $os-light;
+  border-radius: $os-radius;
+  white-space: pre-wrap !important;
+  text-align: justify !important;
+}
+code {
+  background: $os-light;
+  border-radius: $os-radius;
+  padding: 0.2rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@for $i from 10 through 100 {
+  .h-#{$i} {
+    height: #{$i + "%"} !important;
+  }
+}
+@for $i from 10 through 100 {
+  .w-#{$i} {
+    width: #{$i + "%"} !important;
+  }
+}
+
+.vh-100 {
+  @include breakpoint(sm) {
+    // height: calc(100vh - #{$navbar-height});
+    height: 100vh;
+  }
+}
+
+// float / align
+$floats: left right;
+@each $float in $floats {
+  .align-#{$float} {
+    float: $float;
+  }
+}
+
+// font-weight
+$weights: (
+  black: 900,
+  bold: 600,
+  light: 300
+);
+
+@each $w, $weight in $weights {
+  .font-weight-#{$w} {
+    font-weight: $weight;
+  }
+}
+
+// visibility
+.hidden-sm-down {
+  display: none !important;
+}
+@include breakpoint(sm) {
+  .hidden-sm-down {
+    display: block !important;
+  }
+  .hidden-sm {
+    display: none !important;
+  }
+}
+@include breakpoint(md) {
+  .hidden-sm {
+    display: block !important;
+  }
+  .hidden-md {
+    display: none !important;
+  }
+}
+@include breakpoint(lg) {
+  .hidden-md {
+    display: block !important;
+  }
+  .hidden-lg {
+    display: none !important;
+  }
+}

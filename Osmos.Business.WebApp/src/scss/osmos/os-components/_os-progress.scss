@@ -1,0 +1,38 @@
+/**
+* Name: Progress
+* Author: Symbiosys
+*/
+
+$colors: (
+  primary: $os-primary,
+  secondary: $os-secondary,
+  success: $os-success,
+  warning: $os-warning,
+  error: $os-error,
+  dark: $os-dark,
+  light: $os-light
+);
+
+progress {
+  appearance: none;
+  height: 2rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: $os-radius;
+
+  &::-webkit-progress-bar {
+    background: $white;
+  }
+  &::-webkit-progress-value {
+    background: $os-primary;
+    display: block;
+  }
+
+  @each $c, $color in $colors {
+    &.#{$c} {
+      &::-webkit-progress-value {
+        background: $color;
+      }
+    }
+  }
+}

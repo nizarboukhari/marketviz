@@ -1,0 +1,11 @@
+@mixin safeareaTop($property, $spacingBase: 0rem) {
+  --safe-area-inset-top-const: constant(safe-area-inset-bottom);
+  #{$property}: calc(var(--safe-area-inset-top-const) + #{$spacingBase}); /* iOS 11.0 */
+  #{$property}: calc(env(safe-area-inset-top) + #{$spacingBase}); /* iOS 11.2 */
+}
+
+@mixin safeareaBottom($property, $spacingBase: 0rem) {
+  --safe-area-inset-bottom-const: constant(safe-area-inset-bottom);
+  #{$property}: calc(var(--safe-area-inset-bottom-const) + #{$spacingBase}); /* iOS 11.0 */
+  #{$property}: calc(env(safe-area-inset-top) + #{$spacingBase}); /* iOS 11.2 */
+}

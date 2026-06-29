@@ -1,0 +1,50 @@
+/**
+* Name: Dropdown
+* Author: Symbiosys
+*/
+
+.os-dropdown {
+  position: relative;
+
+  > a {
+    &.visible + .dropdown {
+      opacity: 1;
+      pointer-events: all;
+      outline: none;
+      top: 100%;
+      z-index: 2;
+    }
+  }
+
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 1rem);
+    // width: 20rem;
+    max-width: 30rem;
+    // width: 100%;
+    // left: 0;
+    background: $white;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border-radius: $os-radius;
+    border: .1rem solid $os-light;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s;
+    // white-space: nowrap;
+
+    &[style*="width"] {
+      max-width: initial;
+    }
+
+    a {
+      display: block !important;
+      margin-right: 0 !important;
+      margin-bottom: .5rem !important;
+
+      &:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+  }
+}

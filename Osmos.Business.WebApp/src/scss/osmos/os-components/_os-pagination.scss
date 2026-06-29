@@ -1,0 +1,33 @@
+/**
+* Name: Pagination
+* Author: Symbiosys
+*/
+
+nav.os-pagination {
+  display: flex;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    background: $white;
+    border: .1rem solid $os-light;
+
+    text-decoration: none;
+    color: $os-dark;
+    transition: all .3s;
+
+    &:hover, &.active {
+      background: $os-dark;
+      border-color: $os-dark;
+      color: $white;
+    }
+
+    &:not(:last-child), &:not(:first-child) {
+      margin: 0 .1rem;
+    }
+  }
+
+}

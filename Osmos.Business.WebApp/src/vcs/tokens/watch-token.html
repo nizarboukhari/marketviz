@@ -1,0 +1,282 @@
+<template>
+
+  <require from="./trending.scss"></require>
+  <require from="resources/formats/timestamp-format"></require>
+  <require from="resources/formats/humanize-timestamp-format"></require>
+  <require from="resources/formats/short-address-format"></require>
+
+  <div style="margin: 12px;">
+    <div style="font-size: small;">
+      <!-- <br>
+        <br> -->
+      <!-- <div class="watching">
+            <p class="title">WATCHING</p>
+            <p class="name">TXN Name (TXN)</p>
+            <p class="subtitle">@ 14325783946742958729854702tufutf</p>
+          </div> -->
+      <div class="mt-1 mb-1 text-center" style="display: flex; align-items: center; justify-content: space-between;">
+        <div></div>
+        <div></div>
+        <!-- <h4 class="active-token">${token.displayName}</h4> -->
+        <div class="unwatch-link">
+          <a href class="text-right"
+            style="display: flex; align-items: flex-end; justify-content: flex-end; column-gap: 2px;"
+            click.delegate="unwatch()">
+            <i class="fas fa-times" style="cursor: pointer;"></i>
+            <span style="text-decoration: underline;">unwatch</span>
+          </a>
+        </div>
+      </div>
+
+      <div
+        style="margin-bottom: 12px; display: flex; justify-content: center; align-items: center; column-gap: 6px; flex-wrap: wrap; row-gap: 6px;">
+        <div class="info token-info">
+          <div class="txn">
+            <p style="display: flex; align-items: flex-start; text-decoration: underline; flex-direction: column; margin-bottom: 2px;"
+              click.delegate="copyTokenAddress(token)"><span class="token-name list-name active-token"
+                title="${token.name} (${token.symbol})" style="font-size: large;">${token.name} (${token.symbol})</span>
+              <span style="font-size: smaller; font-style: italic; color: lightgray; margin-top: -3px;">
+                <i id="copy-${token.address}" class="far fa-copy" title="copy token address"
+                  style="cursor: pointer;"></i>
+                copy address
+              </span>
+            </p>
+            <p>Created <span if.bind="token.pairTradingData.pairCreatedAt">${token.pairTradingData.pairCreatedAt |
+                humanizeTimestampFormat}</span>
+              <strong if.bind="!token.pairTradingData.pairCreatedAt">NA</strong>
+            </p>
+          </div>
+          <div class="btns">
+            <a href="https://app.uniswap.org/#/swap?outputCurrency=${token.address}&chain=mainnet" target="_blank"
+              style="text-decoration: underline;" class="icons normal-link">Buy
+            </a>
+            <a id="eye-${token.address}" class="icons eye-idle button-watching" click.delegate="unwatch()">
+              <i class="bx bx-hide" id="eye"></i> Unwatch
+            </a>
+          </div>
+        </div>
+        <div class="links token-info" style="width: 350px;">
+          <div class="token-info-inner">
+            <div class="links-row-0">
+              <div if.bind="!item" style="color:rgb(207, 41, 41);"><i class="fas fa-exclamation-triangle fa-lg"></i>
+                token is not
+                hot</div>
+              <p class="numbers" style="font-size: larger;" if.bind="item">
+                <span>Rank</span> <span class="big" style="font-size: larger;">#${item.rank}</span>
+              </p>
+              <p class="numbers" style="font-size: larger;" if.bind="item">
+                <span>Score</span> <span class="big" style="font-size: larger;">${item.score}</span>
+                <span style="padding-left: 1px; font-size: small;">
+                  <span if.bind="item.scoreDiff < 0" style="color: rgb(207, 41, 41);">(${item.scoreDiff})</span>
+                  <!-- <span if.bind="item.scoreDiff == 0" style="color: grey;">(${item.scoreDiff})</span> -->
+                  <span if.bind="item.scoreDiff > 0" style="color: rgb(37, 134, 37);">(+${item.scoreDiff})</span>
+                </span>
+              </p>
+              <div>
+                <span if.bind="token.sourceCode && !token.sourceCode.missing" title="source code exists"
+                  style="color: rgb(37, 134, 37); cursor: pointer; text-decoration: underline;"
+                  click.delegate="openSourceCodeDialog(token.name, token.sourceCode)">
+                  <i class="fas fa-code"></i>code
+                </span>
+                <span if.bind="!token.sourceCode || token.sourceCode.missing" title="source code missing"
+                  style="color: rgb(207, 41, 41);">
+                  <i class="fas fa-code"></i>code
+                </span>
+              </div>
+              <a href="https://etherscan.io/address/${token.owner}" class="icons"
+                if.bind="token.owner.length == 42 && token.owner != '0x0000000000000000000000000000000000000000'"
+                target="_blank" style="text-decoration: underline; color: rgb(207, 41, 41);"><i
+                  class="fas fa-user"></i>owner</a>
+              <span style="color: rgb(37, 134, 37);"
+                if.bind="token.owner.length == 42 && token.owner == '0x0000000000000000000000000000000000000000'">
+                <i class="fas fa-user"></i>0xdEaD
+              </span>
+              <span if.bind="token.owner.length != 42">
+                <i class="fas fa-user-alt-slash" style="color: grey;"></i>owner
+              </span>
+            </div>
+            <div class="tokenomics" style="margin-top: 6px; margin-bottom: 6px;">
+              <p class="numbers"><span>Price</span> <span>$${toExpoNotation(token.pairTradingData.priceUsd)}</p>
+              <p class="numbers"><span>MktCap</span> <span>$${formatCash(token.pairTradingData.fdv)}</span></p>
+              <p class="numbers"><span>Liquidity</span>
+                <span>$${formatCash(token.pairTradingData.liquidity.usd/2)}</span>
+              </p>
+            </div>
+            <div class="links-row-1">
+              <a href="https://etherscan.io/token/${token.address}" target="_blank" class="icons"><img
+                  src="../../images/etherscan.svg" alt="Etherscan" class="svgIcon"><span>Etherscan</span></a>
+
+              <a href="https://dexscreener.com/ethereum/${token.pairAddress ? token.pairAddress : token.address}"
+                target="_blank" class="icons"><img src="../../images/dex.svg" alt="DexScreener"
+                  class="svgIcon"><span>Chart</span></a>
+
+              <a href="https://tokensniffer.com/token/eth/${token.address}" target="_blank" class="icons"><img
+                  src="../../images/sniffer.svg" alt="TokenSniffer" class="svgIcon"><span>Sniffer</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="transactions token-info">
+          <div class="token-info-inner" style="margin: 6px;">
+            <div class="table-row header">
+              <div class="text"></div>
+              <div class="num">5m</div>
+              <div class="num">1h</div>
+              <div class="num">6h</div>
+              <div class="num">24h</div>
+            </div>
+
+            <div class="table-row">
+              <div class="text">Price</div>
+              <div
+                class="num ${token.pairTradingData.priceChange.m5 < 0 ? 'status3' : token.pairTradingData.priceChange.m5 > 0 ? 'status1' : ''}">
+                ${formatCash(token.pairTradingData.priceChange.m5)}%</div>
+              <div
+                class="num ${token.pairTradingData.priceChange.h1 < 0 ? 'status3' : token.pairTradingData.priceChange.h1 > 0 ? 'status1' : ''}">
+                ${formatCash(token.pairTradingData.priceChange.h1)}%</div>
+              <div
+                class="num ${token.pairTradingData.priceChange.h6 < 0 ? 'status3' : token.pairTradingData.priceChange.h6 > 0 ? 'status1' : ''}">
+                ${formatCash(token.pairTradingData.priceChange.h6)}%</div>
+              <div
+                class="num ${token.pairTradingData.priceChange.h24 < 0 ? 'status3' : token.pairTradingData.priceChange.h24 > 0 ? 'status1' : ''}">
+                ${formatCash(token.pairTradingData.priceChange.h24)}%</div>
+            </div>
+
+            <div class="table-row">
+              <div class="text">Txns</div>
+              <div class="num"><span class="status1">${formatCash(token.pairTradingData.txns.m5.buys, true)}</span>/<span
+                  class="status3">${formatCash(token.pairTradingData.txns.m5.sells, true)}</span></div>
+              <div class="num"><span class="status1">${formatCash(token.pairTradingData.txns.h1.buys, true)}</span>/<span
+                  class="status3">${formatCash(token.pairTradingData.txns.h1.sells, true)}</span></div>
+              <div class="num"><span class="status1">${formatCash(token.pairTradingData.txns.h6.buys, true)}</span>/<span
+                  class="status3">${formatCash(token.pairTradingData.txns.h6.sells, true)}</span></div>
+              <div class="num"><span class="status1">${formatCash(token.pairTradingData.txns.h24.buys, true)}</span>/<span
+                  class="status3">${formatCash(token.pairTradingData.txns.h24.sells, true)}</span></div>
+            </div>
+
+            <div class="table-row">
+              <div class="text">Volume</div>
+              <div class="num">${formatCash(token.pairTradingData.volume.m5)}</div>
+              <div class="num">${formatCash(token.pairTradingData.volume.h1)}</div>
+              <div class="num">${formatCash(token.pairTradingData.volume.h6)}</div>
+              <div class="num">${formatCash(token.pairTradingData.volume.h24)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 6px; font-size: 24px;">
+        <a style="text-decoration: underline !important; color: #3085DD;" href show.bind="showCharts" click.delegate="setShowCharts(false, $event)">
+          show transactions
+        </a>
+        <a style="text-decoration: underline !important; color: #3085DD;" href show.bind="!showCharts" click.delegate="setShowCharts(true, $event)">
+          show charts
+        </a>
+      </div>
+
+      <div show.bind="txns.length && !showCharts" style="display: flex; align-items: center; align-content: center; justify-content: center; column-gap: 12px; margin-bottom: 3px;">
+        <div>
+          <span class="status1"><i class="fas fa-user"></i></i> Buy: </span>${((1 - botsRatio.buys) * 100).toFixed(2)}%
+        </div>
+        <div>
+          <span class="status1"><i class="fas fa-robot"></i> Buy: </span>${(botsRatio.buys * 100).toFixed(2)}%
+        </div>
+      </div>
+      <div show.bind="txns.length && !showCharts" style="display: flex; align-items: center; align-content: center; justify-content: center; column-gap: 12px; margin-bottom: 3px;">
+        <div>
+          <span class="status3"><i class="fas fa-user"></i></i> Sell: </span>${((1 - botsRatio.sells) * 100).toFixed(2)}%
+        </div>
+        <div>
+          <span class="status3"><i class="fas fa-robot"></i> Sell: </span>${(botsRatio.sells * 100).toFixed(2)}%
+        </div>
+      </div>
+
+      <div class="transactionsDetails" show.bind="txns.length && !showCharts">
+        <div class="side-table-row header">
+          <div class="num">Type</div>
+          <div class="num text-center">Block</div>
+          <div class="num text-center">Maker</div>
+          <div class="num text-center">Name</div>
+          <div class="num text-center">Value</div>
+          <div class="num text-center">Status</div>
+          <!-- <div class="num text-right" style="margin-right: 6px;">ES</div> -->
+        </div>
+      </div>
+
+      <div class="mb-2" show.bind="txns.length && !showCharts">
+        <div repeat.for="txn of txns">
+          <div
+            class="side-table-row light ${txn.fromOwner ? 'owner' : txn.type == 'Sell' ? 'sell' : txn.type == 'Buy' ? 'buy' : 'none'}">
+            <div class="num">
+              <span class="status2" if.bind="txn.fromOwner">Owner</span>
+              <span if.bind="!txn.fromOwner">
+                <span class="status1" if.bind="txn.type == 'Buy'">Buy</span>
+                <span class="status3" if.bind="txn.type == 'Sell'">Sell</span>
+                <span class="status2" if.bind="txn.type == 'None'"></span>
+              </span>
+            </div>
+
+            <div class="num text-center">${txn.blockNumber}</div>
+
+            <div class="num text-center">
+              <a href="https://etherscan.io/address/${txn.from}" target="_blank"
+                css="color: ${txn.fromOwner ? '#FDAD33' : txn.colors[1]};"
+                style="display: flex; flex-direction: column; align-items: center; row-gap: 1px; text-decoration: underline; margin-top: 6px; margin-bottom: 3px;">
+                <i css="color: ${txn.fromOwner ? '#FDAD33' : txn.colors[0]};" class="fas fa-user"></i>
+                <span css="color: ${txn.fromOwner ? '#FDAD33' : txn.colors[1]}; font-size: smaller;">${txn.from |
+                  shortAddressFormat}</span>
+              </a>
+            </div>
+
+            <div class="num text-center"
+              style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; display: inline-block;">
+              <a href="https://etherscan.io/tx/${txn.hash}" target="_blank" style="text-decoration: underline;"
+                css="color: ${txn.fromOwner ? '#FDAD33' : 'white'};">${txn.functionName}</a>
+            </div>
+
+            <div class="num text-center">
+              <span if.bind="txn.value && txn.value != '0'">$${formatCash(convertPriceToUSD(txn.value))}</span>
+              <span if.bind="!(txn.value && txn.value != '0')">--</span>
+            </div>
+
+            <div class="num text-center">
+              <span class="status2" if.bind="!txn.receipt"><i class="fas fa-spinner rotating"></i></span>
+              <span if.bind="txn.receipt">
+                <span class="status1" if.bind="txn.receipt.succeeded"><i class="fas fa-check"></i></span>
+                <span class="status3" if.bind="!txn.receipt.succeeded"><i class="fas fa-times"></i></span>
+              </span>
+            </div>
+
+            <!-- <div class="num numLink text-right" style="margin-right: 6px;">
+              <a href="https://etherscan.io/tx/${txn.hash}" target="_blank">${txn.hash | shortAddressFormat}</a>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+
+      <div if.bind="!txns.length && !showCharts" class="text-center">
+        Loading transactions..
+      </div>
+
+      <div show.bind="showCharts">
+        <div id="line-chart-container"></div>
+        <div id="pie-chart-container"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    .token-info {
+      background: #FFFFFF10;
+      border-radius: 8px;
+      padding: 8px;
+      width: 350px;
+      height: 96px;
+    }
+
+    .num {
+      font-size: smaller;
+    }
+  </style>
+</template>

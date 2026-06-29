@@ -1,0 +1,73 @@
+<template>
+
+  <require from="./app.scss"></require>
+  <require from="./app.scss"></require>
+  <script>const BADGE_ID = 'jg5OTA4NDUzMzkwN';</script>
+  <script type="text/javascript" src="https://static.alchemyapi.io/scripts/analytics/badge-analytics.js"></script>
+  <require from="toastr/build/toastr.min.css"></require>
+  <require from="resources/formats/short-address-format"></require>
+
+  <main>
+    <!-- <div class="text-right mt-1 mr-1">
+      <a href click.delegate="connectWithMetaMask()">connect with metamask</a>
+    </div>
+    <div class="text-right mt-1 mr-1">
+      <a href click.delegate="signMessage()">sign message</a>
+    </div> -->
+    <div style="width: 100%;">
+      <div class="header-menu">
+        <span innerhtml.bind="router.currentInstruction.config.nav.header"></span>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; column-gap: 24px; row-gap: 12px; padding-right: 12px;">
+          <div>
+            <a href style="color: #00C853; text-decoration: underline;" if.bind="userInfo" click.delegate="disconnect()">
+              <i class="fas fa-circle fa-xs" style="font-size: 9px;"></i> ${userInfo.wallet | shortAddressFormat} (${userInfo.viz.toFixed(2)})
+              <!-- <span>${userInfo.wallet | shortAddressFormat}</span> -->
+            </a>
+            <a href style="color: #ffc34c; text-decoration: underline;" if.bind="!userInfo" click.delegate="openConnect()">
+              <i class="far fa-circle fa-xs" style="font-size: 9px;"></i> not connected
+            </a>
+          </div>
+          <div style="display: flex; text-align: center;">
+            <a href="https://about.marketviz.app/" target="_blank" style="margin-right: 12px; color: white;">
+              <i class="fas fa-book-open fa-lg mr-1" style="margin-right: 2px;"></i>
+            </a>
+            <a href="https://twitter.com/marketvizapp" target="_blank" style="margin-right: 12px; color: #00acee;">
+              <i class="fab fa-twitter fa-lg mr-1" style="margin-right: 2px;"></i>
+            </a>
+            <a href="https://t.me/marketvizportal" target="_blank" style="color: #405DE6">
+              <i class="fab fa-telegram fa-lg" style="margin-right: 2px;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: center; margin-top: 6px;">
+        <a href="https://app.uniswap.org/#/swap?outputCurrency=0x2C10c0dE3362FF21F8ED6bC7F4AC5e391153fD2c&chain=mainnet" target="_blank" class="buy-our-token">
+          <i class="fas fa-heart"></i> Buy <b>MARKETVIZ</b> Token <i class="fas fa-heart"></i>
+        </a>
+      </div>
+      <div class="text-right mt-1 mr-2">
+        <a href style="text-decoration: underline; font-size: larger;" click.delegate="openNotifications()" if.bind="txnNotifications.length"><i class="far fa-bell"></i> notifications</a>
+      </div>
+      <div class="main-menu mb-2" style="width: 100%">
+        <a repeat.for="route of navRoutes" style="text-decoration: underline; margin-left: 6px; margin-right: 6px;"
+          class.bind="router.currentInstruction.config.route == route.route ? 'active-link' : ''"
+          href="#/${route.route}">
+          <h3>${route.title}</h3>
+        </a>
+        <!-- <a style="text-decoration: underline;" href="https://marketviz.gitbook.io/documentation/" target="_blank">
+          <h3>about</h3>
+        </a> -->
+      </div>
+    </div>
+    <router-view></router-view>
+    <br />
+    <br />
+    <br />
+    <div style="position: fixed; left: 0; bottom: 0; width: 100%; text-align: right;">
+      <a href target="_blank" class="mr-1 mb-2">
+        <img click.delegate="logBadgeClick()" id="badge-button" style="width:240px;height:53px"
+          src="https://static.alchemyapi.io/images/marketing/badge.png" alt="Alchemy Supercharged" />
+      </a>
+    </div>
+  </main>
+</template>
